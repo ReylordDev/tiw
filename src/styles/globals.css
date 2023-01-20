@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-white;
+    font-family: "Virgil", sans-serif;
+  }
+}
+
+@font-face {
+  font-family: "Virgil";
+  src: url(../../fonts/Virgil.woff2) format("woff2");
+}
