@@ -15,26 +15,14 @@ const Home: NextPage = () => {
       <main className="min-h-screen font-['Virgil'] bg-[#121212]">
         <div className="container h-screen w-screen border-4 rounded-3xl flex flex-col items-center justify-center gap-12 px-4 ">
           <div className="mb-2 justify-between container flex flex-row  ">
-            <div className="ml-6">
-              <Image src={"globe.svg"} height={48} width={48} alt="Globe for language selection" />
-            </div>
-            <div className="border-4 px-4 py-2 rounded-2xl text-2xl mr-6">
-              1/24
-            </div>
+            <LanguageSelectionButton />
+            <RemainingWordsDisplay />
           </div>
-          <div className="text-5xl border-4 px-6 py-4 rounded-3xl">
-            Frigorifero
-          </div>
+          <CurrentWordDisplay />
           <div className="my-10"></div>
-          <div className="text-3xl border-4 px-6 py-4 rounded-3xl">
-            Show Solution
-          </div>
+          <ShowSolutionButton />
           <div className="mb-36"></div>
-          <div className="text-4xl border-b-4 px-1 py-1 rounded-md">
-            <Link href={'/progress'}>
-              Progress
-            </Link>
-          </div>
+          <ProgressLink />
         </div>
       </main>
     </>
@@ -42,3 +30,36 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+function LanguageSelectionButton() {
+  return <div className="ml-6">
+    <Image src={"globe.svg"} height={48} width={48} alt="Globe for language selection" />
+  </div>;
+}
+
+function RemainingWordsDisplay() {
+  return <div className="border-4 px-4 py-2 rounded-2xl text-2xl mr-6">
+    1/24
+  </div>;
+}
+
+function CurrentWordDisplay() {
+  return <div className="text-5xl border-4 px-6 py-4 rounded-3xl">
+    Frigorifero
+  </div>;
+}
+
+function ShowSolutionButton() {
+  return (<div className="text-3xl border-4 px-6 py-4 rounded-3xl">
+    Show Solution
+  </div>)
+}
+
+function ProgressLink() {
+  return <div className="text-4xl border-b-4 px-1 py-1 rounded-md">
+    <Link href={'/progress'}>
+      Progress
+    </Link>
+  </div>;
+}
+
