@@ -13,7 +13,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="min-h-screen font-['Virgil'] bg-[#121212]">
-        <div className="container h-screen border-4 rounded-3xl flex flex-col items-center justify-center gap-12 px-4 ">
+        <div className="container h-screen w-screen border-4 rounded-3xl flex flex-col items-center justify-center gap-12 px-4 ">
           <div className="mb-2 justify-between container flex flex-row  ">
             <div className="ml-6">
               <Image src={"globe.svg"} height={48} width={48} alt="Globe for language selection" />
