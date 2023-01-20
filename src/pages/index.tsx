@@ -13,16 +13,19 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="min-h-screen font-['Virgil'] bg-[#121212]">
-        <div className="container h-screen w-screen border-4 rounded-3xl flex flex-col items-center justify-center gap-12 px-4 ">
-          <div className="mb-2 justify-between container flex flex-row  ">
+        <div className="container min-h-full h-screen min-w-full  border-4  rounded-3xl flex flex-col items-center lg:justify-start justify-center gap-12">
+          <div className="mb-2 lg:mb-0 lg:mt-28 justify-between min-w-full container flex flex-row  ">
             <LanguageSelectionButton />
             <RemainingWordsDisplay />
           </div>
           <CurrentWordDisplay />
-          <div className="my-10"></div>
+          <div className="my-10 lg:my-14"></div>
           <ShowSolutionButton />
-          <div className="mb-36"></div>
-          <ProgressLink />
+          <div className="mb-36 lg:mb-2"></div>
+          <div className="justify-center items-center lg:justify-end min-w-full container flex flex-row  ">
+            <ProgressLink />
+            <RemainingWordsDisplayLarge />
+          </div>
         </div>
       </main>
     </>
@@ -32,31 +35,37 @@ const Home: NextPage = () => {
 export default Home;
 
 function LanguageSelectionButton() {
-  return <div className="ml-6">
+  return <div className="ml-6 lg:ml-36 lg:scale-150">
     <Image src={"globe.svg"} height={48} width={48} alt="Globe for language selection" />
   </div>;
 }
 
 function RemainingWordsDisplay() {
-  return <div className="border-4 px-4 py-2 rounded-2xl text-2xl mr-6">
+  return <div className="border-4 px-4 py-2 rounded-2xl text-2xl mr-6 lg:hidden">
+    1/24
+  </div>;
+}
+
+function RemainingWordsDisplayLarge() {
+  return <div className="w-0 lg:border-4 lg:px-6 lg:py-3 rounded-2xl text-4xl lg:w-auto lg:mr-40  invisible lg:visible">
     1/24
   </div>;
 }
 
 function CurrentWordDisplay() {
-  return <div className="text-5xl border-4 px-6 py-4 rounded-3xl">
+  return <div className="text-5xl lg:text-7xl lg:border-7 border-4 lg:px-20 lg:py-8 px-6 py-4 rounded-3xl lg:rounded-[36px]">
     Frigorifero
   </div>;
 }
 
 function ShowSolutionButton() {
-  return (<div className="text-3xl border-4 px-6 py-4 rounded-3xl">
+  return (<div className="text-3xl lg:text-5xl lg:border-7 border-4 px-6 lg:px-20 lg:py-12 py-4 rounded-3xl lg:rounded-3xl">
     Show Solution
   </div>)
 }
 
 function ProgressLink() {
-  return <div className="text-4xl border-b-4 px-1 py-1 rounded-md">
+  return <div className="text-4xl lg:text-3xl lg:border-b-6 border-b-4  px-1 lg:px-3 py-1  rounded-md ">
     <Link href={'/progress'}>
       Progress
     </Link>
