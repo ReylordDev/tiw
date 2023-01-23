@@ -14,10 +14,40 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model User {
+    id                 String     @id @default(cuid())
+    name               String?
+    email              String?    @unique
+    emailVerified      DateTime?
+    image              String?
+    accounts           Account[]
+    sessions           Session[]
+    streak             Int        @default(0)
+    languagePreference String?    @default("en")
+    createdAt          DateTime   @default(now())
+    lastRevision       DateTime?
+    Practices          Practice[]
+}
+
+model Word {
+    id        String     @id @default(cuid())
+    italian   String
+    english   String
+    german    String
+    rank      Int        @default(0)
+    Practices Practice[]
+}
+
+model Practice {
+    id           String    @id @default(cuid())
+    createdAt    DateTime  @default(now())
+    userId       String
+    user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    wordId       String
+    word         Word      @relation(fields: [wordId], references: [id], onDelete: Cascade)
+    counter      Int       @default(0)
+    lastPractice DateTime  @default(now())
+    nextPractice DateTime?
 }
 
 // Necessary for Next auth
@@ -45,16 +75,6 @@ model Session {
     userId       String
     expires      DateTime
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
 }
 
 model VerificationToken {
