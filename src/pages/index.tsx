@@ -3,7 +3,6 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
-import AddWordsModal from "./components/AddWordsModal";
 import { getServerAuthSession } from "../server/auth";
 
 const Home: NextPage = () => {
