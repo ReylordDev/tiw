@@ -11,4 +11,21 @@ export const userRouter = createTRPCRouter({
       });
       return User;
     }),
+  getDuePractices: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .query(({ ctx, input }) => {
+      const result = ctx.prisma.user.findUnique({
+        where: { id: input.id },
+        include: {
+          Practices: {
+            where: {
+              nextPractice: {
+                lte: new Date(),
+              },
+            },
+          },
+        },
+      });
+      return result;
+    }),
 });
