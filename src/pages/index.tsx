@@ -2,8 +2,16 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
+import { signIn, useSession } from "next-auth/react";
 
 const Home: NextPage = () => {
+    const { data: session, status } = useSession();
+
+    if (status === "loading") {
+        return <div>Loading...</div>;
+    }
+
+    console.log(session);
 
     return (
         <>
@@ -13,17 +21,9 @@ const Home: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main className="min-h-screen flex flex-col items-center font-['Virgil'] bg-[#121212] justify-between">
-                <div className="flex w-full py-4 px-4 pt-8 lg:px-24 lg:pt-24  justify-between">
-                    <LanguageSelectionButton />
-                    <RemainingWordsDisplay />
-                </div>
-                <CurrentWordDisplay />
-                <ShowSolutionButton />
-                <div className="flex w-full py-4 px-4 lg:pb-12 justify-center items-center lg:justify-between">
-                    <div className="lg:w-32"></div>
-                    <ProgressLink />
-                    <RemainingWordsDisplayLarge />
-                </div>
+                {
+                    session ? <AuthenticatedPage /> : <UnauthenticatedPage />
+                }
             </main>
         </>
     );
@@ -31,40 +31,80 @@ const Home: NextPage = () => {
 
 export default Home;
 
+function UnauthenticatedPage() {
+    return (
+        <>
+            <div className="flex w-full py-4 px-4 pt-8 lg:px-24 lg:pt-24  justify-between">
+                <LanguageSelectionButton />
+            </div>
+            <TitleHeader />
+            <div className="my-4"></div>
+            <NotLoggedInText />
+            <LogInButton />
+            <div className="my-4"></div>
+            <div></div>
+        </>
+    )
+}
+
+function AuthenticatedPage() {
+    return (
+        <>
+            <div className="flex w-full py-4 px-4 pt-8 lg:px-24 lg:pt-24  justify-between">
+                <LanguageSelectionButton />
+            </div>
+            <TitleHeader />
+            <div className="my-4"></div>
+            <PracticeButton />
+            <AddWordsButton />
+            <ProgressButton />
+            <div className="my-4"></div>
+            <div></div>
+        </>
+    )
+}
+
 function LanguageSelectionButton() {
     return <div className="">
         <Image src={"globe.svg"} height={48} width={48} alt="Globe for language selection" />
     </div>;
 }
 
-function RemainingWordsDisplay() {
-    return <div className="border-4 px-4 py-2 rounded-2xl text-2xl  lg:hidden">
-        1/24
+function TitleHeader() {
+    return <div className="text-2xl lg:text-7xl lg:border-7 border-4 lg:px-20 lg:py-8 px-6 py-4 rounded-2xl lg:rounded-[36px]">
+        Top 1000 Italian Words
     </div>;
 }
 
-function RemainingWordsDisplayLarge() {
-    return <div className="w-0 lg:border-4 lg:px-6 lg:py-3 rounded-2xl text-4xl lg:w-auto invisible lg:visible">
-        1/24
-    </div>;
-}
-
-function CurrentWordDisplay() {
-    return <div className="text-5xl lg:text-7xl lg:border-7 border-4 lg:px-20 lg:py-8 px-6 py-4 rounded-3xl lg:rounded-[36px]">
-        Frigorifero
-    </div>;
-}
-
-function ShowSolutionButton() {
-    return (<div className="text-3xl lg:text-4xl lg:border-6 border-4 px-6 lg:px-14 lg:py-8 py-4 rounded-3xl">
-        Show Solution
+function NotLoggedInText() {
+    return (<div className="text-xl lg:text-4xl text-center px-6 lg:px-14 lg:py-8 py-4">
+        You&apos;re not currently <br></br>logged in.
     </div>)
 }
 
-function ProgressLink() {
-    return <Link href={'/progress'} className="text-4xl lg:text-3xl lg:border-b-6 border-b-4  px-1 lg:px-3 py-1  rounded-sm ">
-        Progress
-    </Link>
+function LogInButton() {
+    return (<button className="text-3xl lg:text-4xl lg:border-6 border-4 px-6 lg:px-14 lg:py-8 py-4 rounded-2xl"
+        onClick={() => void signIn()}>
+        Log in
+    </button>)
 }
 
+function PracticeButton() {
+    return (<Link className="text-3xl lg:text-4xl lg:border-6 border-4 px-6 lg:px-14 lg:py-8 py-4 rounded-2xl"
+        href={'revision'}>
+        Practice
+    </Link>)
+}
 
+function AddWordsButton() {
+    return (<div className="text-3xl lg:text-4xl lg:border-6 border-4 px-6 lg:px-14 lg:py-8 py-4 rounded-2xl">
+        Add more words
+    </div>)
+}
+
+function ProgressButton() {
+    return (<Link className="text-3xl lg:text-4xl lg:border-6 border-4 px-6 lg:px-14 lg:py-8 py-4 rounded-2xl"
+        href={'progress'}>
+        Progress
+    </Link>)
+}
