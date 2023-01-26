@@ -3,6 +3,9 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
+import { useState } from "react";
+import { api } from "../utils/api";
+import AddWordsModal from "./components/AddWordsModal";
 
 const Home: NextPage = () => {
     const { data: session, status } = useSession();
@@ -22,7 +25,7 @@ const Home: NextPage = () => {
             </Head>
             <main className="min-h-screen flex flex-col items-center font-['Virgil'] bg-[#121212] justify-between">
                 {
-                    session ? <AuthenticatedPage /> : <UnauthenticatedPage />
+                    session?.user ? <AuthenticatedPage userId={session.user.id} /> : <UnauthenticatedPage />
                 }
             </main>
         </>
@@ -47,16 +50,21 @@ function UnauthenticatedPage() {
     )
 }
 
-function AuthenticatedPage() {
+function AuthenticatedPage(props: { userId: string }) {
+    const [modalOpen, setModalOpen] = useState(false);
+    const { data: user } = api.user.getById.useQuery({ id: props.userId })
+    console.log(user);
+
     return (
         <>
+            {modalOpen && <AddWordsModal setModal={setModalOpen} />}
             <div className="flex w-full py-4 px-4 pt-8 lg:px-24 lg:pt-24  justify-between">
                 <LanguageSelectionButton />
             </div>
             <TitleHeader />
             <div className="my-4"></div>
             <PracticeButton />
-            <AddWordsButton />
+            <AddWordsButton setModal={setModalOpen} />
             <ProgressButton />
             <div className="my-4"></div>
             <div></div>
@@ -96,10 +104,13 @@ function PracticeButton() {
     </Link>)
 }
 
-function AddWordsButton() {
-    return (<div className="text-3xl lg:text-4xl lg:border-6 border-4 px-6 lg:px-14 lg:py-8 py-4 rounded-2xl">
+function AddWordsButton(props: { setModal: (open: boolean) => void }) {
+    return (<button className="text-3xl lg:text-4xl lg:border-6 border-4 px-6 lg:px-14 lg:py-8 py-4 rounded-2xl"
+        onClick={() => {
+            props.setModal(true);
+        }}>
         Add more words
-    </div>)
+    </button>)
 }
 
 function ProgressButton() {
