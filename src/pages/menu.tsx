@@ -1,12 +1,16 @@
-import type { GetServerSidePropsContext } from "next";
-import { type NextPage } from "next";
+import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { signIn } from "next-auth/react";
+import Link from "next/link";
+import { useState } from "react";
+import { api } from "../utils/api";
 import AddWordsModal from "./components/AddWordsModal";
 import { getServerAuthSession } from "../server/auth";
 
-const Home: NextPage = () => {
+function MenuPage({ userId }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+    const [modalOpen, setModalOpen] = useState(false);
+    const { data: user } = api.user.getById.useQuery({ id: userId })
+    console.log(user);
     return (
         <>
             <Head>
@@ -15,21 +19,23 @@ const Home: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main className="min-h-screen flex flex-col items-center font-['Virgil'] bg-[#121212] justify-between">
+                {modalOpen && <AddWordsModal setModal={setModalOpen} />}
                 <div className="flex w-full py-4 px-4 pt-8 lg:px-24 lg:pt-24  justify-between">
                     <LanguageSelectionButton />
                 </div>
                 <TitleHeader />
                 <div className="my-4"></div>
-                <NotLoggedInText />
-                <LogInButton />
+                <PracticeButton />
+                <AddWordsButton setModal={setModalOpen} />
+                <ProgressButton />
                 <div className="my-4"></div>
                 <div></div>
             </main>
         </>
     );
-};
+}
 
-export default Home;
+export default MenuPage;
 
 
 function LanguageSelectionButton() {
@@ -44,31 +50,45 @@ function TitleHeader() {
     </div>;
 }
 
-function NotLoggedInText() {
-    return (<div className="text-xl lg:text-4xl text-center px-6 lg:px-14 lg:py-8 py-4">
-        You&apos;re not currently <br></br>logged in.
-    </div>)
+function PracticeButton() {
+    return (<Link className="text-3xl lg:text-4xl lg:border-6 border-4 px-6 lg:px-14 lg:py-8 py-4 rounded-2xl"
+        href={'revision'}>
+        Practice
+    </Link>)
 }
 
-function LogInButton() {
+function AddWordsButton(props: { setModal: (open: boolean) => void }) {
     return (<button className="text-3xl lg:text-4xl lg:border-6 border-4 px-6 lg:px-14 lg:py-8 py-4 rounded-2xl"
-        onClick={() => void signIn()}>
-        Log in
+        onClick={() => {
+            props.setModal(true);
+        }}>
+        Add more words
     </button>)
 }
 
+function ProgressButton() {
+    return (<Link className="text-3xl lg:text-4xl lg:border-6 border-4 px-6 lg:px-14 lg:py-8 py-4 rounded-2xl"
+        href={'progress'}>
+        Progress
+    </Link>)
+}
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     const session = await getServerAuthSession(ctx);
 
-    if (session?.user) {
+    if (!session?.user?.id) {
         return {
             redirect: {
                 permanent: false,
-                destination: '/menu',
+                destination: '/',
             },
         };
     }
 
-    return { props: {} };
+    return {
+        props: {
+            userId: session.user.id,
+        },
+    };
 }
+
