@@ -56,7 +56,7 @@ function LogInButton() {
     </button>)
 }
 
-
+//todo: remove server side rendering
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     const session = await getServerAuthSession(ctx);
 
