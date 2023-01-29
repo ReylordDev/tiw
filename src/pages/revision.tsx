@@ -34,6 +34,7 @@ function Revision({ userId }: { userId: string }) {
         word: Word;
     })[]>()
     const [wordIndex, setWordIndex] = useState(0)
+    const [solutionVisible, setSolutionVisible] = useState(false)
     const { data: practices, isLoading } = api.practice.getDuePracticesByUserId.useQuery({ userId: userId }, {
         onSuccess: (data) => {
             setRevision(data)
@@ -49,9 +50,12 @@ function Revision({ userId }: { userId: string }) {
     if (revision.length === 0) {
         return <div>Done!</div>
     }
-    console.log(revision);
 
 
+    function handleSolutionToggle() {
+        console.log("Solution", solutionVisible ? "hidden" : "visible");
+        setSolutionVisible(!solutionVisible)
+    }
 
     return (
         <main className="min-h-screen flex flex-col items-center font-['Virgil'] bg-[#121212] justify-between">
@@ -60,7 +64,11 @@ function Revision({ userId }: { userId: string }) {
                 <RemainingWordsDisplay length={revision.length} index={wordIndex + 1} />
             </div>
             <CurrentWordDisplay word={revision[wordIndex]?.word} />
-            <ShowSolutionButton />
+            <div className="flex w-full py-4 px-4 pt-8 lg:px-24 lg:pt-24 flex-col lg:flex-row gap-8 justify-around">
+                {solutionVisible && <CorrectButton />}
+                {solutionVisible && <IncorrectButton />}
+            </div>
+            <ShowSolutionToggle solutionVisible={solutionVisible} handleSolutionToggle={handleSolutionToggle} />
             <div className="flex w-full py-4 px-4 lg:pb-12 justify-center items-center lg:justify-between">
                 <div className="lg:w-32"></div>
                 <ProgressLink />
@@ -71,7 +79,7 @@ function Revision({ userId }: { userId: string }) {
 }
 
 function LanguageSelectionButton() {
-    return <div className="">
+    return <div className="invisible">
         <Image src={"globe.svg"} height={48} width={48} alt="Globe for language selection" />
     </div>;
 }
@@ -94,10 +102,12 @@ function CurrentWordDisplay({ word }: { word: Word | undefined }) {
     </div>;
 }
 
-function ShowSolutionButton() {
-    return (<div className="text-3xl lg:text-4xl lg:border-6 border-4 px-6 lg:px-14 lg:py-8 py-4 rounded-3xl">
-        Show Solution
-    </div>)
+function ShowSolutionToggle({ solutionVisible, handleSolutionToggle }: { solutionVisible: boolean, handleSolutionToggle: () => void }) {
+    return (<button className="text-3xl lg:text-4xl lg:border-6 border-4 px-6 lg:px-14 lg:py-8 py-4 rounded-3xl"
+        onClick={() => handleSolutionToggle()}>
+        {solutionVisible && "Hide Solution"}
+        {!solutionVisible && "Show Solution"}
+    </button>)
 }
 
 function ProgressLink() {
@@ -106,4 +116,14 @@ function ProgressLink() {
     </Link>
 }
 
+function CorrectButton() {
+    return <button className="border-2 px-7 py-2 rounded-2xl text-2xl bg-green-900">
+        Correct
+    </button>;
+}
 
+function IncorrectButton() {
+    return <button className="border-2 px-4 py-2 rounded-2xl text-2xl bg-red-900">
+        Incorrect
+    </button>;
+}
