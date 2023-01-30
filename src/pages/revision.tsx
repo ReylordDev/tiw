@@ -35,10 +35,14 @@ function Revision({ userId }: { userId: string }) {
     })[]>()
     const [wordIndex, setWordIndex] = useState(0)
     const [solutionVisible, setSolutionVisible] = useState(false)
+    const { mutate: updatePractice } = api.practice.updatePractice.useMutation()
     const { data: practices, isLoading } = api.practice.getDuePracticesByUserId.useQuery({ userId: userId }, {
         onSuccess: (data) => {
             setRevision(data)
-        }
+        },
+        refetchOnWindowFocus: false,
+        // refetchOnReconnect: false,
+        // refetchInterval: false,
     })
     if (isLoading) {
         return <div>Loading...</div>
@@ -57,6 +61,31 @@ function Revision({ userId }: { userId: string }) {
         setSolutionVisible(!solutionVisible)
     }
 
+    function handleSubmit(correct: boolean) {
+        if (!revision || revision.length === 0) {
+            console.log("No revision");
+            return;
+        }
+        const practice = revision[wordIndex];
+        if (!practice) {
+            console.log("No practice");
+            return;
+        }
+        console.log(correct);
+        const newCounter = correct ? practice.counter + 1 : (practice.counter > 0 ? practice.counter - 1 : 0);
+        updatePractice({
+            // todo write api call to custom api that calculates the next practice date using counter and lastPractice
+            practiceId: practice.id,
+            newCounter: newCounter,
+            nextPractice: new Date(),
+        })
+        if (wordIndex < revision.length - 1) {
+            setWordIndex(wordIndex + 1)
+        } else {
+            //finishRevision();
+        }
+    }
+
     return (
         <main className="min-h-screen flex flex-col items-center font-['Virgil'] bg-[#121212] justify-between">
             <div className="flex w-full py-4 px-4 pt-8 lg:px-24 lg:pt-24  justify-between">
@@ -65,8 +94,8 @@ function Revision({ userId }: { userId: string }) {
             </div>
             <CurrentWordDisplay word={revision[wordIndex]?.word} solutionVisible={solutionVisible} />
             <div className="flex w-full py-4 px-4 pt-8 lg:px-24 lg:pt-24 flex-col lg:flex-row gap-8 justify-around">
-                {solutionVisible && <CorrectButton />}
-                {solutionVisible && <IncorrectButton />}
+                {solutionVisible && <CorrectButton handleSubmit={handleSubmit} />}
+                {solutionVisible && <IncorrectButton handleSubmit={handleSubmit} />}
             </div>
             <ShowSolutionToggle solutionVisible={solutionVisible} handleSolutionToggle={handleSolutionToggle} />
             <div className="flex w-full py-4 px-4 lg:pb-12 justify-center items-center lg:justify-between">
@@ -121,14 +150,16 @@ function ProgressLink() {
     </Link>
 }
 
-function CorrectButton() {
-    return <button className="border-2 px-7 py-2 rounded-2xl text-2xl bg-green-900">
+function CorrectButton({ handleSubmit }: { handleSubmit: (correct: boolean) => void }) {
+    return <button className="border-2 px-7 py-2 rounded-2xl text-2xl bg-green-900"
+        onClick={() => handleSubmit(true)}>
         Correct
     </button>;
 }
 
-function IncorrectButton() {
-    return <button className="border-2 px-4 py-2 rounded-2xl text-2xl bg-red-900">
+function IncorrectButton({ handleSubmit }: { handleSubmit: (correct: boolean) => void }) {
+    return <button className="border-2 px-4 py-2 rounded-2xl text-2xl bg-red-900"
+        onClick={() => handleSubmit(false)}>
         Incorrect
     </button>;
 }
