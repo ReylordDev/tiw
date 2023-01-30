@@ -19,4 +19,25 @@ export const practiceRouter = createTRPCRouter({
       });
       return result;
     }),
+  updatePractice: protectedProcedure
+    .input(
+      z.object({
+        practiceId: z.string(),
+        newCounter: z.number(),
+        nextPractice: z.date(),
+      })
+    )
+    .mutation(({ ctx, input }) => {
+      const result = ctx.prisma.practice.update({
+        where: {
+          id: input.practiceId,
+        },
+        data: {
+          nextPractice: new Date(),
+          lastPractice: new Date(),
+          counter: input.newCounter,
+        },
+      });
+      return result;
+    }),
 });
