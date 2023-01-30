@@ -63,7 +63,7 @@ function Revision({ userId }: { userId: string }) {
                 <LanguageSelectionButton />
                 <RemainingWordsDisplay length={revision.length} index={wordIndex + 1} />
             </div>
-            <CurrentWordDisplay word={revision[wordIndex]?.word} />
+            <CurrentWordDisplay word={revision[wordIndex]?.word} solutionVisible={solutionVisible} />
             <div className="flex w-full py-4 px-4 pt-8 lg:px-24 lg:pt-24 flex-col lg:flex-row gap-8 justify-around">
                 {solutionVisible && <CorrectButton />}
                 {solutionVisible && <IncorrectButton />}
@@ -96,9 +96,14 @@ function RemainingWordsDisplayLarge({ length, index }: { length: number, index: 
     </div>;
 }
 
-function CurrentWordDisplay({ word }: { word: Word | undefined }) {
+function CurrentWordDisplay({ word, solutionVisible }: { word: Word | undefined, solutionVisible: boolean }) {
+    if (!word) {
+        return <div className="text-5xl lg:text-7xl lg:border-7 border-4 lg:px-20 lg:py-8 px-6 py-4 rounded-3xl lg:rounded-[36px]">
+
+        </div>;
+    }
     return <div className="text-5xl lg:text-7xl lg:border-7 border-4 lg:px-20 lg:py-8 px-6 py-4 rounded-3xl lg:rounded-[36px]">
-        {word ? word.italian : "Loading..."}
+        {solutionVisible ? word.english : word.italian}
     </div>;
 }
 
