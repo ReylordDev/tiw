@@ -33,7 +33,7 @@ export const practiceRouter = createTRPCRouter({
           id: input.practiceId,
         },
         data: {
-          nextPractice: new Date(),
+          nextPractice: input.nextPractice,
           lastPractice: new Date(),
           counter: input.newCounter,
         },

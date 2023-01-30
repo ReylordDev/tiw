@@ -5,6 +5,7 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import calculateNextRevisionDate from "../server/revision";
 import { api } from "../utils/api";
 
 const Home: NextPage = () => {
@@ -73,11 +74,11 @@ function Revision({ userId }: { userId: string }) {
         }
         console.log(correct);
         const newCounter = correct ? practice.counter + 1 : (practice.counter > 0 ? practice.counter - 1 : 0);
+        const nextPractice = calculateNextRevisionDate(practice.lastPractice, newCounter)
         updatePractice({
-            // todo write api call to custom api that calculates the next practice date using counter and lastPractice
             practiceId: practice.id,
             newCounter: newCounter,
-            nextPractice: new Date(),
+            nextPractice: nextPractice,
         })
         if (wordIndex < revision.length - 1) {
             setWordIndex(wordIndex + 1)
