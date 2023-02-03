@@ -1,13 +1,7 @@
 import React, { useState } from 'react'
+import { api } from '../../utils/api'
 
-function addWords(count: number) {
-    if (count < 1 || count > 1000) {
-        return;
-    }
-    console.log(count);
-}
-
-export default function AddWordsModal(props: { setModal: (open: boolean) => void }) {
+export default function AddWordsModal(props: { setModal: (open: boolean) => void, currentRank: number }) {
     const [count, setCount] = useState<string>('')
     return (
         <div className='absolute inset-0 flex items-center justify-center bg-black/90'>
@@ -19,11 +13,21 @@ export default function AddWordsModal(props: { setModal: (open: boolean) => void
                         onClick={() => { props.setModal(false) }}>Cancel</button>
                     <button className='px-4 py-2 rounded-md bg-[#121212]'
                         onClick={() => {
-                            addWords(parseInt(count) || 0);
+                            <AddWordsFunction count={parseInt(count)} currentRank={props.currentRank} />
                             props.setModal(false);
                         }}>Add</button>
                 </div>
             </div>
+        </div>
+    )
+}
+
+function AddWordsFunction({ count, currentRank }: { count: number, currentRank: number }) {
+    console.log(count, currentRank)
+    const { data: words } = api.word.getFromRank.useQuery({ count, rank: currentRank });
+    console.log(words);
+    return (
+        <div>
         </div>
     )
 }

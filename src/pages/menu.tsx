@@ -10,7 +10,10 @@ import { getServerAuthSession } from "../server/auth";
 function MenuPage({ userId }: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const [modalOpen, setModalOpen] = useState(false);
     const { data: user } = api.user.getById.useQuery({ id: userId })
+    if (!user) return null;
     console.log(user);
+
+
     return (
         <>
             <Head>
@@ -19,7 +22,7 @@ function MenuPage({ userId }: InferGetServerSidePropsType<typeof getServerSidePr
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main className="min-h-screen flex flex-col items-center font-['Virgil'] bg-[#121212] justify-between">
-                {modalOpen && <AddWordsModal setModal={setModalOpen} />}
+                {modalOpen && <AddWordsModal setModal={setModalOpen} currentRank={user?.currentRankProgress} />}
                 <div className="flex w-full py-4 px-4 pt-8 lg:px-24 lg:pt-24  justify-between">
                     <LanguageSelectionButton />
                 </div>
