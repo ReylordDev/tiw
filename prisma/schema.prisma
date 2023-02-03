@@ -15,18 +15,19 @@ datasource db {
 }
 
 model User {
-    id                 String     @id @default(cuid())
-    name               String?
-    email              String?    @unique
-    emailVerified      DateTime?
-    image              String?
-    accounts           Account[]
-    sessions           Session[]
-    streak             Int        @default(0)
-    languagePreference String?    @default("en")
-    createdAt          DateTime   @default(now())
-    lastRevision       DateTime?
-    Practices          Practice[]
+    id                  String     @id @default(cuid())
+    name                String?
+    email               String?    @unique
+    emailVerified       DateTime?
+    image               String?
+    accounts            Account[]
+    sessions            Session[]
+    streak              Int        @default(0)
+    languagePreference  String?    @default("en")
+    createdAt           DateTime   @default(now())
+    lastRevision        DateTime?
+    Practices           Practice[]
+    currentRankProgress Int        @default(0)
 }
 
 model Word {
