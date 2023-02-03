@@ -5,7 +5,7 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import calculateNextRevisionDate from "../server/revision";
+import { completePractice } from "../server/revision";
 import { api } from "../utils/api";
 
 const Home: NextPage = () => {
@@ -36,7 +36,7 @@ function Revision({ userId }: { userId: string }) {
     })[]>()
     const [wordIndex, setWordIndex] = useState(0)
     const [solutionVisible, setSolutionVisible] = useState(false)
-    const { mutate: updatePractice } = api.practice.updatePractice.useMutation()
+    const { mutate: updatePractice } = api.practice.updatePractice.useMutation();
     const { data: practices, isLoading } = api.practice.getDuePracticesByUserId.useQuery({ userId: userId }, {
         onSuccess: (data) => {
             setRevision(data)
@@ -72,13 +72,11 @@ function Revision({ userId }: { userId: string }) {
             console.log("No practice");
             return;
         }
-        console.log(correct);
-        const newCounter = correct ? practice.counter + 1 : (practice.counter > 0 ? practice.counter - 1 : 0);
-        const nextPractice = calculateNextRevisionDate(practice.lastPractice, newCounter)
+        const { newCounter, nextPracticeDate } = completePractice(correct, practice);
         updatePractice({
             practiceId: practice.id,
-            newCounter: newCounter,
-            nextPractice: nextPractice,
+            nextPractice: nextPracticeDate,
+            newCounter,
         })
         if (wordIndex < revision.length - 1) {
             setWordIndex(wordIndex + 1)
