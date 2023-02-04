@@ -1,8 +1,23 @@
 import React, { useState } from 'react'
 import { api } from '../../utils/api'
 
-export default function AddWordsModal(props: { setModal: (open: boolean) => void, currentRank: number }) {
+export default function AddWordsModal(props: { setModal: (open: boolean) => void, currentRank: number, userId: string }) {
     const [count, setCount] = useState<string>('')
+    const [submitted, setSubmitted] = useState<boolean>(false)
+    const { data } = api.word.getIdsFromRank.useQuery({ count: parseInt(count), rank: props.currentRank }, {
+        enabled: submitted,
+    });
+    const { mutate: initializePractice } = api.practice.initializePractice.useMutation();
+    if (data) {
+        console.log("Got word ids", data);
+        data.map((word) => {
+            initializePractice({
+                userId: props.userId,
+                wordId: word.id,
+            })
+        })
+        props.setModal(false);
+    }
     return (
         <div className='absolute inset-0 flex items-center justify-center bg-black/90'>
             <div className=' text-xl text-center lg:text-4xl lg:border-6 bg-green-900 border-4 px-6 lg:px-14 lg:py-8 py-4 rounded-2xl '>
@@ -13,21 +28,10 @@ export default function AddWordsModal(props: { setModal: (open: boolean) => void
                         onClick={() => { props.setModal(false) }}>Cancel</button>
                     <button className='px-4 py-2 rounded-md bg-[#121212]'
                         onClick={() => {
-                            <AddWordsFunction count={parseInt(count)} currentRank={props.currentRank} />
-                            props.setModal(false);
+                            setSubmitted(true);
                         }}>Add</button>
                 </div>
             </div>
-        </div>
-    )
-}
-
-function AddWordsFunction({ count, currentRank }: { count: number, currentRank: number }) {
-    console.log(count, currentRank)
-    const { data: words } = api.word.getFromRank.useQuery({ count, rank: currentRank });
-    console.log(words);
-    return (
-        <div>
         </div>
     )
 }

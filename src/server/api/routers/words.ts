@@ -6,7 +6,7 @@ export const wordRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.word.findMany();
   }),
-  getFromRank: protectedProcedure
+  getIdsFromRank: protectedProcedure
     // todo: add input validation
     .input(z.object({ rank: z.number(), count: z.number() }))
     .query(({ ctx, input }) => {
@@ -17,6 +17,9 @@ export const wordRouter = createTRPCRouter({
           },
         },
         take: input.count,
+        select: {
+          id: true,
+        },
       });
     }),
 });

@@ -40,4 +40,23 @@ export const practiceRouter = createTRPCRouter({
       });
       return result;
     }),
+  initializePractice: protectedProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        wordId: z.string(),
+      })
+    )
+    .mutation(({ ctx, input }) => {
+      const result = ctx.prisma.practice.create({
+        data: {
+          userId: input.userId,
+          wordId: input.wordId,
+          lastPractice: new Date(),
+          nextPractice: new Date(),
+          counter: 0,
+        },
+      });
+      return result;
+    }),
 });

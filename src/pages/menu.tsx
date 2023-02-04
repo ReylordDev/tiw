@@ -22,7 +22,7 @@ function MenuPage({ userId }: InferGetServerSidePropsType<typeof getServerSidePr
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main className="min-h-screen flex flex-col items-center font-['Virgil'] bg-[#121212] justify-between">
-                {modalOpen && <AddWordsModal setModal={setModalOpen} currentRank={user?.currentRankProgress} />}
+                {modalOpen && <AddWordsModal setModal={setModalOpen} currentRank={user?.currentRankProgress} userId={user?.id} />}
                 <div className="flex w-full py-4 px-4 pt-8 lg:px-24 lg:pt-24  justify-between">
                     <LanguageSelectionButton />
                 </div>
