@@ -3,21 +3,7 @@ import { api } from '../../utils/api'
 
 export default function AddWordsModal(props: { setModal: (open: boolean) => void, currentRank: number, userId: string }) {
     const [count, setCount] = useState<string>('')
-    const [submitted, setSubmitted] = useState<boolean>(false)
-    const { data } = api.word.getIdsFromRank.useQuery({ count: parseInt(count), rank: props.currentRank }, {
-        enabled: submitted,
-    });
-    const { mutate: initializePractice } = api.practice.initializePractice.useMutation();
-    if (data) {
-        console.log("Got word ids", data);
-        data.map((word) => {
-            initializePractice({
-                userId: props.userId,
-                wordId: word.id,
-            })
-        })
-        props.setModal(false);
-    }
+    const { mutate: createPracticesFromRank } = api.practice.createPracticesFromRank.useMutation();
     return (
         <div className='absolute inset-0 flex items-center justify-center bg-black/90'>
             <div className=' text-xl text-center lg:text-4xl lg:border-6 bg-green-900 border-4 px-6 lg:px-14 lg:py-8 py-4 rounded-2xl '>
@@ -28,7 +14,12 @@ export default function AddWordsModal(props: { setModal: (open: boolean) => void
                         onClick={() => { props.setModal(false) }}>Cancel</button>
                     <button className='px-4 py-2 rounded-md bg-[#121212]'
                         onClick={() => {
-                            setSubmitted(true);
+                            createPracticesFromRank({
+                                userId: props.userId,
+                                count: parseInt(count),
+                                rank: props.currentRank,
+                            })
+                            props.setModal(false);
                         }}>Add</button>
                 </div>
             </div>

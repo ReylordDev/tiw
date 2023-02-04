@@ -79,6 +79,7 @@ function Revision({ userId }: { userId: string }) {
             newCounter,
         })
         if (wordIndex < revision.length - 1) {
+            // hide solution
             setWordIndex(wordIndex + 1)
         } else {
             //finishRevision();
