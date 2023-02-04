@@ -13,7 +13,6 @@ const Home: NextPage = () => {
     if (!session?.user) {
         return null
     }
-    console.log(session.user.id);
 
 
     return (
