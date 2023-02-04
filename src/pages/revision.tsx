@@ -80,6 +80,7 @@ function Revision({ userId }: { userId: string }) {
         })
         if (wordIndex < revision.length - 1) {
             // hide solution
+            setSolutionVisible(false)
             setWordIndex(wordIndex + 1)
         } else {
             //finishRevision();
