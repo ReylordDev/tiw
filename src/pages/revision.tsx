@@ -46,7 +46,7 @@ function Revision({ userId }: { userId: string }) {
     }
     if (!practices || !revision) {
         console.log(practices);
-        return <div>Error?</div>
+        return <div>Loading...</div>
     }
     if (revision.length === 0 && !finished) {
         setFinished(true)
