@@ -87,7 +87,7 @@ function Revision({ userId }: { userId: string }) {
     }
 
     return (
-        <main className="min-h-screen flex flex-col items-center font-['Virgil'] bg-[#121212] justify-between">
+        <main className="min-h-screen flex flex-col items-center justify-between">
             {finished && <>
                 <div>
                 </div>

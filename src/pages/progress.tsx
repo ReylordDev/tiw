@@ -31,7 +31,7 @@ function ProgressPage({ userId }: { userId: string }) {
         id: userId,
     })
     console.log(user)
-    return <main className="min-h-screen flex flex-col font-['Virgil'] bg-[#121212] justify-between">
+    return <main className="min-h-screen flex flex-col  justify-between">
         <div className="flex w-full py-4 px-4 lg:px-24 bg-red-400 justify-between">
             <LanguageSelectionButton />
             <div className="text-5xl lg:text-8xl lg:border-7 border-b-4 px-4 py-4    ">Progress</div>
