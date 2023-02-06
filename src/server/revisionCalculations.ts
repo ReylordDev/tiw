@@ -1,21 +1,16 @@
 import type { Practice } from "@prisma/client";
 
+//round(0.44914437 * 2.05504173 ^ prop("Counter"))
 const initial = 0.44914437;
 const growth = 2.05504173;
 
-export default function calculateNextRevisionDate(
-  lastPractice: Date,
-  counter: number
-) {
-  lastPractice.setHours(0, 0, 0, 0);
+export function calculateNextRevisionDate(lastPractice: Date, counter: number) {
   const days = Math.round(initial * growth ** counter);
-  console.log(days);
-  lastPractice.setDate(lastPractice.getDate() + days);
-  console.log(lastPractice);
+  const nextPractice = new Date(lastPractice.getTime());
+  nextPractice.setDate(nextPractice.getDate() + days);
+  nextPractice.setHours(0, 0, 0, 0);
   return lastPractice;
 }
-
-//round(0.44914437 * 2.05504173 ^ prop("Counter"))
 
 export function completePractice(correct: boolean, practice: Practice) {
   let newCounter: number;
