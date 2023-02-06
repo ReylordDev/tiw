@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { completePractice } from "../server/revision";
+import { completePractice } from "../server/revisionCalculations";
 import { api } from "../utils/api";
 import MyHead from "./components/myHead";
 
