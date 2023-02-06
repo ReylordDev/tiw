@@ -1,4 +1,4 @@
-import type { Practice, Word } from "@prisma/client";
+import type { Practice } from "@prisma/client";
 
 const initial = 0.44914437;
 const growth = 2.05504173;
