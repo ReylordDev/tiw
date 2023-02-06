@@ -8,6 +8,7 @@ import GithubProvider from "next-auth/providers/github";
 import { env } from "../../../env/server.mjs";
 
 export const authOptions: NextAuthOptions = {
+  debug: true,
   // Include user.id on session
   callbacks: {
     session({ session, user }) {
