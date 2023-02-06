@@ -6,6 +6,7 @@ import { useState } from "react";
 import { api } from "../utils/api";
 import AddWordsModal from "./components/AddWordsModal";
 import { getServerAuthSession } from "../server/auth";
+import { signOut } from "next-auth/react";
 
 function MenuPage({ userId }: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const [modalOpen, setModalOpen] = useState(false);
@@ -23,8 +24,9 @@ function MenuPage({ userId }: InferGetServerSidePropsType<typeof getServerSidePr
             </Head>
             <main className="min-h-screen flex flex-col items-center font-['Virgil'] bg-[#121212] justify-between">
                 {modalOpen && <AddWordsModal setModal={setModalOpen} currentRank={user?.currentRankProgress} userId={user?.id} />}
-                <div className="flex w-full py-4 px-4 pt-8 lg:px-24 lg:pt-24  justify-between">
+                <div className="flex w-full py-4 px-4 pt-8 lg:px-24   justify-between">
                     <LanguageSelectionButton />
+                    <button className="text-2xl lg:text-4xl" onClick={() => void signOut()}>Sign out</button>
                 </div>
                 <TitleHeader />
                 <div className="my-4"></div>
