@@ -94,4 +94,17 @@ export const practiceRouter = createTRPCRouter({
           console.log(err);
         });
     }),
+  getPracticesWithWordsByUserId: protectedProcedure
+    .input(z.object({ userId: z.string() }))
+    .query(({ ctx, input }) => {
+      const result = ctx.prisma.practice.findMany({
+        where: {
+          userId: input.userId,
+        },
+        include: {
+          word: true,
+        },
+      });
+      return result;
+    }),
 });

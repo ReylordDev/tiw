@@ -23,10 +23,9 @@ const Home: NextPage = () => {
 export default Home;
 
 function ProgressPage({ userId }: { userId: string }) {
-    const { data: user } = api.user.getById.useQuery({
-        id: userId,
+    const practicesQueryResult = api.practice.getPracticesWithWordsByUserId.useQuery({
+        userId: userId,
     })
-    console.log(user)
     return <main className="min-h-screen flex flex-col  justify-between">
         <div className="flex w-full py-4 px-4 lg:px-24 bg-red-400 justify-between">
             <LanguageSelectionButton />
