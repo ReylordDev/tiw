@@ -89,7 +89,13 @@ function Revision({ userId }: { userId: string }) {
                 <div className="text-5xl lg:text-7xl lg:border-7 border-b-4 lg:px-20 lg:py-8 px-6 py-4 rounded-3xl lg:rounded-[36px]">You&apos;re done!</div>
                 <p className="text-2xl lg:text-4xl lg:px-20 lg:py-8 px-6 py-4 text-center">Make sure to come back tomorrow<br></br>to continue learning.</p>
                 <p className="text-xl lg:text-3xl lg:px-20 lg:py-8 px-6 pt-20 text-center">Check your progress in the meantime</p>
-                <ProgressLink />
+                <Link href="/progress" className="border-4 lg:px-6 px-2 lg:py-2 rounded-2xl text-xl lg:text-4xl ">
+                    Progress
+                </Link>
+                <p className="text-xl lg:text-3xl lg:px-20 lg:py-8 px-6 pt-20 text-center">Or return to the menu<br></br>to add more words.</p>
+                <Link href="menu" className="border-4 lg:px-6 px-2 lg:py-2 rounded-2xl text-xl lg:text-4xl ">
+                    Back
+                </Link>
                 <div></div>
             </>}
             {!finished && <>
