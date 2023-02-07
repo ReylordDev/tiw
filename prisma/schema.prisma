@@ -41,15 +41,15 @@ model Word {
 }
 
 model Practice {
-    id           String    @id @default(cuid())
-    createdAt    DateTime  @default(now())
+    id           String   @id @default(cuid())
+    createdAt    DateTime @default(now())
     userId       String
-    user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     wordId       String
-    word         Word      @relation(fields: [wordId], references: [id], onDelete: Cascade)
-    counter      Int       @default(0)
-    lastPractice DateTime  @default(now())
-    nextPractice DateTime?
+    word         Word     @relation(fields: [wordId], references: [id], onDelete: Cascade)
+    counter      Int      @default(0)
+    lastPractice DateTime @default(now())
+    nextPractice DateTime @default(now())
 
     @@index([userId])
     @@index([wordId])

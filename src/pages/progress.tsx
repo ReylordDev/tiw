@@ -79,7 +79,7 @@ function ProgressTable({ practices }: { practices: (Practice & { word: Word })[]
                             <td className="border p-2 lg:px-8">{practice.word.italian}</td>
                             <td className="border p-2 lg:px-8 md:whitespace-nowrap">{practice.word.english}</td>
                             <td className="border p-2 lg:px-8">{practice.lastPractice.toLocaleDateString()}</td>
-                            <td className="border p-2 lg:px-8">{practice.lastPractice.toLocaleDateString()}</td>
+                            <td className="border p-2 lg:px-8">{practice.nextPractice.toLocaleDateString()}</td>
                             <td className="border p-2 lg:px-8">{practice.counter}</td>
                         </tr>
                     )
