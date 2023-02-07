@@ -26,6 +26,8 @@ export const serverSchema = z.object({
   EMAIL_FROM: z.string(),
   GITHUB_CLIENT_ID: z.string(),
   GITHUB_SECRET: z.string(),
+  GOOGLE_CLIENT_ID: z.string(),
+  GOOGLE_CLIENT_SECRET: z.string(),
 });
 
 /**
@@ -45,6 +47,8 @@ export const serverEnv = {
   EMAIL_FROM: process.env.EMAIL_FROM,
   GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
   GITHUB_SECRET: process.env.GITHUB_SECRET,
+  GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
 };
 
 /**
