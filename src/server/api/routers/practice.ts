@@ -53,12 +53,15 @@ export const practiceRouter = createTRPCRouter({
         .findMany({
           where: {
             rank: {
-              gte: input.rank,
+              gt: input.rank,
             },
           },
           take: input.count,
           select: {
             id: true,
+          },
+          orderBy: {
+            rank: "asc",
           },
         })
         .then((wordIds) => {

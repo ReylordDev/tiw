@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import { api } from '../../utils/api'
 
-export default function AddWordsModal(props: { setModal: (open: boolean) => void, currentRank: number, userId: string }) {
+export default function AddWordsModal(props: { setModal: (open: boolean) => void, userId: string }) {
     const [count, setCount] = useState<string>('')
+    const { data, isLoading } = api.user.getById.useQuery({ id: props.userId });
+    if (!data || isLoading) return <div>Loading...</div>
+    const currentRank = data.currentRankProgress;
     const { mutate: createPracticesFromRank } = api.practice.createPracticesFromRank.useMutation();
     return (
         <div className='absolute inset-0 flex items-center justify-center bg-black/90'>
@@ -17,7 +20,7 @@ export default function AddWordsModal(props: { setModal: (open: boolean) => void
                             createPracticesFromRank({
                                 userId: props.userId,
                                 count: parseInt(count),
-                                rank: props.currentRank,
+                                rank: currentRank,
                             })
                             props.setModal(false);
                         }}>Add</button>

@@ -19,7 +19,7 @@ function MenuPage({ userId }: InferGetServerSidePropsType<typeof getServerSidePr
         <>
             <MyHead />
             <main className="min-h-screen flex flex-col items-center justify-between">
-                {modalOpen && <AddWordsModal setModal={setModalOpen} currentRank={user?.currentRankProgress} userId={user?.id} />}
+                {modalOpen && <AddWordsModal setModal={setModalOpen} userId={user?.id} />}
                 <div className="flex w-full py-4 px-4 pt-8 lg:px-24   justify-between">
                     <LanguageSelectionButton />
                     <button className="text-2xl lg:text-4xl" onClick={() => void signOut()}>Sign out</button>
