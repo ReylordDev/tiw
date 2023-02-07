@@ -6,10 +6,11 @@ const growth = 2.05504173;
 
 export function calculateNextRevisionDate(lastPractice: Date, counter: number) {
   const days = Math.round(initial * growth ** counter);
+  console.log("days", days);
   const nextPractice = new Date(lastPractice.getTime());
   nextPractice.setDate(nextPractice.getDate() + days);
   nextPractice.setHours(0, 0, 0, 0);
-  return lastPractice;
+  return nextPractice;
 }
 
 export function completePractice(correct: boolean, practice: Practice) {
@@ -24,10 +25,6 @@ export function completePractice(correct: boolean, practice: Practice) {
     practice.lastPractice,
     newCounter
   );
-
-  console.log("Completing Practice", practice);
-  console.log("newCounter", newCounter);
-  console.log("nextPracticeDate", nextPracticeDate);
 
   return {
     newCounter,

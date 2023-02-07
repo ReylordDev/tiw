@@ -52,7 +52,6 @@ function Revision({ userId }: { userId: string }) {
         setFinished(true)
     }
 
-
     function handleSolutionToggle() {
         console.log("Solution", solutionVisible ? "hidden" : "visible");
         setSolutionVisible(!solutionVisible)
