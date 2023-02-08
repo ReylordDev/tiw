@@ -59,6 +59,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     if (session?.user) {
         return {
             redirect: {
+                // what is permanent?
                 permanent: false,
                 destination: '/menu',
             },

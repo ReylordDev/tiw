@@ -8,6 +8,7 @@ import type { Practice, Word } from "@prisma/client";
 
 const Home: NextPage = () => {
     const { data: session } = useSession();
+    // should this be server side rendering? like in index.tsx?
     if (!session?.user) {
         return null
     }
