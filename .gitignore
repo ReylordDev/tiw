@@ -40,3 +40,8 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# word source helpers
+words/*.py
+words/italian.csv
+words/notion-db.csv
