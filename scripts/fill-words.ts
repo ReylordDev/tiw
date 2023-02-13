@@ -11,7 +11,7 @@ type Word = {
 };
 
 const doBackfill = () => {
-  const csvFilePath = path.resolve(__dirname, "../words/italian.csv");
+  const csvFilePath = path.resolve(__dirname, "../words/words.csv");
   console.log("filepath", csvFilePath);
 
   const headers = ["italian", "english", "german", "rank"];
