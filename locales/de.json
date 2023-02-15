@@ -22,5 +22,14 @@
     "incorrect": "Falsch",
     "hideSolution": "Lösung verstecken",
     "showSolution": "Lösung anzeigen"
+  },
+  "Progress": {
+    "rank": "Rang",
+    "italian": "Italienisch",
+    "english": "Englisch",
+    "german": "Deutsch",
+    "lastPractice": "Letzte Übung",
+    "nextPractice": "Nächste Übung",
+    "counter": "Häufigkeit"
   }
 }

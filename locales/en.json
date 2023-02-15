@@ -22,5 +22,14 @@
     "incorrect": "Incorrect",
     "hideSolution": "Hide Solution",
     "showSolution": "Show Solution"
+  },
+  "Progress": {
+    "rank": "Rank",
+    "italian": "Italian",
+    "english": "English",
+    "german": "German",
+    "lastPractice": "Last Practice",
+    "nextPractice": "Next Practice",
+    "counter": "Counter"
   }
 }

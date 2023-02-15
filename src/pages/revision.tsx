@@ -283,6 +283,7 @@ function IncorrectButton({
     </button>
   );
 }
+
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const locale = ctx.locale || "en";
   return {
