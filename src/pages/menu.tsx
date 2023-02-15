@@ -11,14 +11,14 @@ import AddWordsModal from "./components/AddWordsModal";
 import { getServerAuthSession } from "../server/auth";
 import { signOut } from "next-auth/react";
 import MyHead from "./components/myHead";
+import { useTranslations } from "next-intl";
 
 function MenuPage({
   userId,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [modalOpen, setModalOpen] = useState(false);
   const { data: user } = api.user.getById.useQuery({ id: userId });
-  const router = useRouter();
-  const { locale, locales, defaultLocale } = router;
+  const t = useTranslations();
   if (!user) return null;
   console.log(user);
 
@@ -35,7 +35,7 @@ function MenuPage({
             className="text-2xl lg:text-4xl"
             onClick={() => void signOut()}
           >
-            Sign out
+            {t("Menu.signOutButton")}
           </button>
         </div>
         <TitleHeader />
@@ -66,25 +66,28 @@ function LanguageSelectionButton() {
 }
 
 function TitleHeader() {
+  const t = useTranslations();
   return (
     <div className="lg:border-7 rounded-2xl border-4 px-6 py-4 text-2xl lg:rounded-[36px] lg:px-20 lg:py-8 lg:text-7xl">
-      Top 1000 Italian Words
+      {t("Index.titleHeader")}
     </div>
   );
 }
 
 function PracticeButton() {
+  const t = useTranslations();
   return (
     <Link
       className="lg:border-6 rounded-2xl border-4 px-6 py-4 text-3xl lg:px-14 lg:py-8 lg:text-4xl"
       href={"revision"}
     >
-      Practice
+      {t("Menu.practiceButton")}
     </Link>
   );
 }
 
 function AddWordsButton(props: { setModal: (open: boolean) => void }) {
+  const t = useTranslations();
   return (
     <button
       className="lg:border-6 rounded-2xl border-4 px-6 py-4 text-3xl lg:px-14 lg:py-8 lg:text-4xl"
@@ -92,18 +95,19 @@ function AddWordsButton(props: { setModal: (open: boolean) => void }) {
         props.setModal(true);
       }}
     >
-      Add more words
+      {t("Menu.addWordsButton")}
     </button>
   );
 }
 
 function ProgressButton() {
+  const t = useTranslations();
   return (
     <Link
       className="lg:border-6 rounded-2xl border-4 px-6 py-4 text-3xl lg:px-14 lg:py-8 lg:text-4xl"
       href={"progress"}
     >
-      Progress
+      {t("Menu.progressButton")}
     </Link>
   );
 }
@@ -111,6 +115,7 @@ function ProgressButton() {
 // todo: remove server side rendering
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const session = await getServerAuthSession(ctx);
+  const locale = ctx.locale || "en";
 
   if (!session?.user?.id) {
     return {
@@ -124,6 +129,8 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   return {
     props: {
       userId: session.user.id,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+      messages: (await import(`../../locales/${locale}.json`)).default,
     },
   };
 }

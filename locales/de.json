@@ -4,5 +4,11 @@
     "notLoggedInText1": "Du bist nicht",
     "notLoggedInText2": "eingeloggt.",
     "logInButton": "Einloggen"
+  },
+  "Menu": {
+    "practiceButton": "Üben",
+    "progressButton": "Fortschritt",
+    "addWordsButton": "Mehr Wörter hinzufügen",
+    "signOutButton": "Ausloggen"
   }
 }
