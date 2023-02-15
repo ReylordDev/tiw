@@ -1,5 +1,6 @@
 import type { Practice, Word } from "@prisma/client";
-import { GetServerSidePropsContext, type NextPage } from "next";
+import type { GetServerSidePropsContext } from "next";
+import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
