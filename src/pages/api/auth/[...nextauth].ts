@@ -9,7 +9,7 @@ import GoogleProvider from "next-auth/providers/google";
 import { env } from "../../../env/server.mjs";
 
 export const authOptions: NextAuthOptions = {
-  debug: true,
+  debug: false,
   // Include user.id on session
   callbacks: {
     session({ session, user }) {
