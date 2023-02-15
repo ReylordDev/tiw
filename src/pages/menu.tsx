@@ -53,7 +53,17 @@ function LanguageSelectionButton() {
   const { locale } = useRouter();
   const localeValue = locale === "en" ? "de" : "en";
   return (
-    <Link className="text-2xl lg:text-4xl" href="menu" locale={localeValue}>
+    <Link
+      className="flex flex-row items-center gap-4 text-2xl lg:text-4xl"
+      href="menu"
+      locale={localeValue}
+    >
+      <Image
+        src={"../globe.svg"}
+        height={48}
+        width={48}
+        alt="Globe for language selection"
+      />
       {t("Menu.languageSelectionButton")}
     </Link>
   );
