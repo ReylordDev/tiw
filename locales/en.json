@@ -10,5 +10,17 @@
     "progressButton": "Progress",
     "addWordsButton": "Add more Words",
     "signOutButton": "Sign out"
+  },
+  "Revision": {
+    "doneText": "You're done!",
+    "comeBackTomorrow1": "Come back tomorrow",
+    "comeBackTomorrow2": "to practice more words.",
+    "checkProgress": "Check your progress in the meantime.",
+    "returnToMenu": "Or return to the menu",
+    "back": "Back",
+    "correct": "Correct",
+    "incorrect": "Incorrect",
+    "hideSolution": "Hide Solution",
+    "showSolution": "Show Solution"
   }
 }

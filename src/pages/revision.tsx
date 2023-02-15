@@ -1,6 +1,7 @@
 import type { Practice, Word } from "@prisma/client";
-import { type NextPage } from "next";
+import { GetServerSidePropsContext, type NextPage } from "next";
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -30,6 +31,7 @@ function Revision({ userId }: { userId: string }) {
       word: Word;
     })[]
   >();
+  const t = useTranslations();
   const [wordIndex, setWordIndex] = useState(0);
   const [solutionVisible, setSolutionVisible] = useState(false);
   const [finished, setFinished] = useState(false);
@@ -95,28 +97,30 @@ function Revision({ userId }: { userId: string }) {
         <>
           <div></div>
           <div className="lg:border-7 rounded-3xl border-b-4 px-6 py-4 text-5xl lg:rounded-[36px] lg:px-20 lg:py-8 lg:text-7xl">
-            You&apos;re done!
+            {t("Revision.doneText")}
           </div>
           <p className="px-6 py-4 text-center text-2xl lg:px-20 lg:py-8 lg:text-4xl">
-            Make sure to come back tomorrow<br></br>to continue learning.
+            {t("Revision.comeBackTomorrow1")}
+            <br></br>
+            {t("Revision.comeBackTomorrow2")}
           </p>
           <p className="px-6 pt-20 text-center text-xl lg:px-20 lg:py-8 lg:text-3xl">
-            Check your progress in the meantime
+            {t("Revision.checkProgress")}
           </p>
           <Link
             href="/progress"
             className="rounded-2xl border-4 px-2 text-xl lg:px-6 lg:py-2 lg:text-4xl "
           >
-            Progress
+            {t("Menu.progressButton")}
           </Link>
           <p className="px-6 pt-20 text-center text-xl lg:px-20 lg:py-8 lg:text-3xl">
-            Or return to the menu<br></br>to add more words.
+            {t("Revision.returnToMenu")}
           </p>
           <Link
             href="menu"
             className="rounded-2xl border-4 px-2 text-xl lg:px-6 lg:py-2 lg:text-4xl "
           >
-            Back
+            {t("Revision.back")}
           </Link>
           <div></div>
         </>
@@ -223,24 +227,26 @@ function ShowSolutionToggle({
   solutionVisible: boolean;
   handleSolutionToggle: () => void;
 }) {
+  const t = useTranslations();
   return (
     <button
       className="lg:border-6 rounded-3xl border-4 px-6 py-4 text-3xl lg:px-14 lg:py-8 lg:text-4xl"
       onClick={() => handleSolutionToggle()}
     >
-      {solutionVisible && "Hide Solution"}
-      {!solutionVisible && "Show Solution"}
+      {solutionVisible && t("Revision.hideSolution")}
+      {!solutionVisible && t("Revision.showSolution")}
     </button>
   );
 }
 
 function ProgressLink() {
+  const t = useTranslations();
   return (
     <Link
       href={"/progress"}
       className="lg:border-b-6 rounded-sm border-b-4 px-1  py-1 text-4xl lg:px-3  lg:text-3xl "
     >
-      Progress
+      {t("Menu.progressButton")}
     </Link>
   );
 }
@@ -250,12 +256,13 @@ function CorrectButton({
 }: {
   handleSubmit: (correct: boolean) => void;
 }) {
+  const t = useTranslations();
   return (
     <button
       className="rounded-2xl border-2 bg-green-900 px-7 py-2 text-2xl"
       onClick={() => handleSubmit(true)}
     >
-      Correct
+      {t("Revision.correct")}
     </button>
   );
 }
@@ -265,12 +272,22 @@ function IncorrectButton({
 }: {
   handleSubmit: (correct: boolean) => void;
 }) {
+  const t = useTranslations();
   return (
     <button
       className="rounded-2xl border-2 bg-red-900 px-4 py-2 text-2xl"
       onClick={() => handleSubmit(false)}
     >
-      Incorrect
+      {t("Revision.incorrect")}
     </button>
   );
+}
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  const locale = ctx.locale || "en";
+  return {
+    props: {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+      messages: (await import(`../../locales/${locale}.json`)).default,
+    },
+  };
 }

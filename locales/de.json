@@ -10,5 +10,17 @@
     "progressButton": "Fortschritt",
     "addWordsButton": "Mehr Wörter hinzufügen",
     "signOutButton": "Ausloggen"
+  },
+  "Revision": {
+    "doneText": "Du bist fertig!",
+    "comeBackTomorrow1": "Komm morgen wieder",
+    "comeBackTomorrow2": "um mehr Wörter zu üben.",
+    "checkProgress": "Schau auf deinen Fortschritt in der Zwischenzeit.",
+    "returnToMenu": "Oder kehre zum Menü zurück.",
+    "back": "Zurück",
+    "correct": "Richtig",
+    "incorrect": "Falsch",
+    "hideSolution": "Lösung verstecken",
+    "showSolution": "Lösung anzeigen"
   }
 }
