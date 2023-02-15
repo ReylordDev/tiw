@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { completePractice } from "../server/revisionCalculations";
 import { api } from "../utils/api";
@@ -209,6 +210,7 @@ function CurrentWordDisplay({
   word: Word | undefined;
   solutionVisible: boolean;
 }) {
+  const { locale } = useRouter();
   if (!word) {
     return (
       <div className="lg:border-7 rounded-3xl border-4 px-6 py-4 text-5xl lg:rounded-[36px] lg:px-20 lg:py-8 lg:text-7xl"></div>
@@ -216,7 +218,9 @@ function CurrentWordDisplay({
   }
   return (
     <div className="lg:border-7 rounded-3xl border-4 px-6 py-4 text-5xl lg:rounded-[36px] lg:px-20 lg:py-8 lg:text-7xl">
-      {solutionVisible ? word.english : word.italian}
+      {solutionVisible &&
+        ((locale === "en" && word.english) || (locale === "de" && word.german))}
+      {!solutionVisible && word.italian}
     </div>
   );
 }
