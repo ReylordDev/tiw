@@ -62,7 +62,7 @@ function LanguageSelectionButton() {
   return (
     <Link
       className="flex flex-row items-center gap-4 text-2xl lg:text-4xl"
-      href="menu"
+      href="progress"
       locale={localeValue}
     >
       <Image
