@@ -5,6 +5,8 @@ import { signIn } from "next-auth/react";
 import { getServerAuthSession } from "../server/auth";
 import MyHead from "./components/myHead";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   return (
@@ -28,15 +30,23 @@ const Home: NextPage = () => {
 export default Home;
 
 function LanguageSelectionButton() {
+  const t = useTranslations();
+  const { locale } = useRouter();
+  const localeValue = locale === "en" ? "de" : "en";
   return (
-    <div className="">
+    <Link
+      className="flex flex-row items-center gap-4 text-2xl lg:text-4xl"
+      href="/"
+      locale={localeValue}
+    >
       <Image
         src={"globe.svg"}
         height={48}
         width={48}
         alt="Globe for language selection"
       />
-    </div>
+      {t("Menu.languageSelectionButton")}
+    </Link>
   );
 }
 

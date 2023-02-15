@@ -11,6 +11,8 @@ import { getServerAuthSession } from "../server/auth";
 import { signOut } from "next-auth/react";
 import MyHead from "./components/myHead";
 import { useTranslations } from "next-intl";
+import { Sign } from "crypto";
+import { useRouter } from "next/router";
 
 function MenuPage({
   userId,
@@ -30,12 +32,7 @@ function MenuPage({
         )}
         <div className="flex w-full justify-between py-4 px-4 pt-8   lg:px-24">
           <LanguageSelectionButton />
-          <button
-            className="text-2xl lg:text-4xl"
-            onClick={() => void signOut()}
-          >
-            {t("Menu.signOutButton")}
-          </button>
+          <SignOutButton />
         </div>
         <TitleHeader />
         <div className="my-4"></div>
@@ -52,15 +49,22 @@ function MenuPage({
 export default MenuPage;
 
 function LanguageSelectionButton() {
+  const t = useTranslations();
+  const { locale } = useRouter();
+  const localeValue = locale === "en" ? "de" : "en";
   return (
-    <div className="">
-      <Image
-        src={"globe.svg"}
-        height={48}
-        width={48}
-        alt="Globe for language selection"
-      />
-    </div>
+    <Link className="text-2xl lg:text-4xl" href="menu" locale={localeValue}>
+      {t("Menu.languageSelectionButton")}
+    </Link>
+  );
+}
+
+function SignOutButton() {
+  const t = useTranslations();
+  return (
+    <button className="text-2xl lg:text-4xl" onClick={() => void signOut()}>
+      {t("Menu.signOutButton")}
+    </button>
   );
 }
 

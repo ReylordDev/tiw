@@ -10,6 +10,7 @@
     "progressButton": "Progress",
     "addWordsButton": "Add more Words",
     "signOutButton": "Sign out",
+    "languageSelectionButton": "German",
     "AddWordsModal": {
       "howMany": "How many words do you want to add?",
       "cancelButton": "Cancel",
