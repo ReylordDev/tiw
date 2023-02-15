@@ -1,6 +1,8 @@
 {
   "Index": {
     "titleHeader": "Top 1000 Italian Words",
-    "description": "This is the home page."
+    "notLoggedInText1": "You're not currently",
+    "notLoggedInText2": "logged in.",
+    "logInButton": "Login"
   }
 }

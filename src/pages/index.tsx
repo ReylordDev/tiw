@@ -4,12 +4,12 @@ import Image from "next/image";
 import { signIn } from "next-auth/react";
 import { getServerAuthSession } from "../server/auth";
 import MyHead from "./components/myHead";
+import { useTranslations } from "next-intl";
 
 const Home: NextPage = () => {
   return (
     <>
       <MyHead />
-      <div>{t("Index.titleHeader")}</div>
       <main className="flex min-h-screen flex-col items-center justify-between">
         <div className="flex w-full justify-between py-4 px-4 pt-8 lg:px-24  lg:pt-24">
           <LanguageSelectionButton />
@@ -41,34 +41,40 @@ function LanguageSelectionButton() {
 }
 
 function TitleHeader() {
+  const t = useTranslations("Index");
   return (
     <div className="lg:border-7 rounded-2xl border-4 px-6 py-4 text-2xl lg:rounded-[36px] lg:px-20 lg:py-8 lg:text-7xl">
-      Top 1000 Italian Words
+      {t("titleHeader")}
     </div>
   );
 }
 
 function NotLoggedInText() {
+  const t = useTranslations("Index");
   return (
     <div className="px-6 py-4 text-center text-xl lg:px-14 lg:py-8 lg:text-4xl">
-      You&apos;re not currently <br></br>logged in.
+      {t("notLoggedInText1")}
+      <br></br>
+      {t("notLoggedInText2")}
     </div>
   );
 }
 
 function LogInButton() {
+  const t = useTranslations("Index");
   return (
     <button
       className="lg:border-6 rounded-2xl border-4 px-6 py-4 text-3xl lg:px-14 lg:py-8 lg:text-4xl"
       onClick={() => void signIn()}
     >
-      Log in
+      {t("logInButton")}
     </button>
   );
 }
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const session = await getServerAuthSession(ctx);
+  const locale = ctx.locale || "en";
 
   if (session?.user) {
     return {
@@ -80,5 +86,10 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     };
   }
 
-  return { props: {} };
+  return {
+    props: {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+      messages: (await import(`../../locales/${locale}.json`)).default,
+    },
+  };
 }

@@ -1,6 +1,8 @@
 {
   "Index": {
-    "titleHeader": "Die 1000 häufigsten Italianischen Wörter",
-    "description": "Das ist die Startseite."
+    "titleHeader": "Die 1000 häufigsten Italienischen Wörter",
+    "notLoggedInText1": "Du bist nicht",
+    "notLoggedInText2": "eingeloggt.",
+    "logInButton": "Einloggen"
   }
 }
