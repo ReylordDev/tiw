@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import { api } from "../../utils/api";
 
@@ -5,6 +6,7 @@ export default function AddWordsModal(props: {
   setModal: (open: boolean) => void;
   userId: string;
 }) {
+  const t = useTranslations();
   const [count, setCount] = useState<string>("");
   const { data, isLoading } = api.user.getById.useQuery({ id: props.userId });
   if (!data || isLoading) return <div>Loading...</div>;
@@ -14,7 +16,7 @@ export default function AddWordsModal(props: {
   return (
     <div className="absolute inset-0 flex items-center justify-center bg-black/90">
       <div className=" lg:border-6 rounded-2xl border-4 bg-green-900 px-6 py-4 text-center text-xl lg:px-14 lg:py-8 lg:text-4xl ">
-        <h3 className="pb-4 font-medium">How many words?</h3>
+        <h3 className="pb-4 font-medium">{t("Menu.AddWordsModal.howMany")}</h3>
         <input
           type="number"
           value={count}
@@ -32,7 +34,7 @@ export default function AddWordsModal(props: {
               props.setModal(false);
             }}
           >
-            Cancel
+            {t("Menu.AddWordsModal.cancelButton")}
           </button>
           <button
             className="rounded-md bg-[#121212] px-4 py-2"
@@ -45,7 +47,7 @@ export default function AddWordsModal(props: {
               props.setModal(false);
             }}
           >
-            Add
+            {t("Menu.AddWordsModal.addButton")}
           </button>
         </div>
       </div>

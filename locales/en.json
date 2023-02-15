@@ -9,7 +9,12 @@
     "practiceButton": "Practice",
     "progressButton": "Progress",
     "addWordsButton": "Add more Words",
-    "signOutButton": "Sign out"
+    "signOutButton": "Sign out",
+    "AddWordsModal": {
+      "howMany": "How many words do you want to add?",
+      "cancelButton": "Cancel",
+      "addButton": "Add"
+    }
   },
   "Revision": {
     "doneText": "You're done!",
