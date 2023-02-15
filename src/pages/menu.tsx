@@ -11,7 +11,6 @@ import { getServerAuthSession } from "../server/auth";
 import { signOut } from "next-auth/react";
 import MyHead from "./components/myHead";
 import { useTranslations } from "next-intl";
-import { Sign } from "crypto";
 import { useRouter } from "next/router";
 
 function MenuPage({
@@ -19,7 +18,6 @@ function MenuPage({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [modalOpen, setModalOpen] = useState(false);
   const { data: user } = api.user.getById.useQuery({ id: userId });
-  const t = useTranslations();
   if (!user) return null;
   console.log(user);
 
