@@ -56,15 +56,23 @@ function ProgressPage({ userId }: { userId: string }) {
 }
 
 function LanguageSelectionButton() {
+  const t = useTranslations();
+  const { locale } = useRouter();
+  const localeValue = locale === "en" ? "de" : "en";
   return (
-    <div className="flex px-2 align-middle">
+    <Link
+      className="flex flex-row items-center gap-4 text-2xl lg:text-4xl"
+      href="menu"
+      locale={localeValue}
+    >
       <Image
-        src={"globe.svg"}
+        src={"../globe.svg"}
         height={48}
         width={48}
         alt="Globe for language selection"
       />
-    </div>
+      {t("Menu.languageSelectionButton")}
+    </Link>
   );
 }
 
