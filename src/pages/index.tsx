@@ -1,4 +1,4 @@
-import type { GetStaticPropsContext } from "next";
+import type { GetStaticPropsContext, NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -8,7 +8,7 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
 import MyHead from "./components/myHead";
 
-function Home() {
+const Home: NextPage = () => {
   const { data: session, status } = useSession();
   if (status === "loading") {
     return <div>Loading...</div>;
@@ -18,7 +18,7 @@ function Home() {
   } else {
     return <MenuPageLoggedIn userId={session.user.id} />;
   }
-}
+};
 
 export default Home;
 
