@@ -6,6 +6,7 @@ import AddWordsModal from "./components/AddWordsModal";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
+import MyHead from "./components/myHead";
 
 function Home() {
   const { data: session, status } = useSession();
@@ -23,17 +24,20 @@ export default Home;
 
 export function NotLoggedInPage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between">
-      <div className="flex w-full justify-between py-4 px-4 pt-8 lg:px-24">
-        <LanguageSelectionButton />
-      </div>
-      <TitleHeader />
-      <div className="my-4"></div>
-      <NotLoggedInText />
-      <LogInButton />
-      <div className="my-4"></div>
-      <div></div>
-    </main>
+    <>
+      <MyHead />
+      <main className="flex min-h-screen flex-col items-center justify-between">
+        <div className="flex w-full justify-between py-4 px-4 pt-8 lg:px-24">
+          <LanguageSelectionButton />
+        </div>
+        <TitleHeader />
+        <div className="my-4"></div>
+        <NotLoggedInText />
+        <LogInButton />
+        <div className="my-4"></div>
+        <div></div>
+      </main>
+    </>
   );
 }
 
@@ -63,20 +67,23 @@ function LogInButton() {
 function MenuPageLoggedIn({ userId }: { userId: string }) {
   const [modalOpen, setModalOpen] = useState(false);
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between">
-      {modalOpen && <AddWordsModal setModal={setModalOpen} userId={userId} />}
-      <div className="flex w-full justify-between py-4 px-4 pt-8   lg:px-24">
-        <LanguageSelectionButton />
-        <SignOutButton />
-      </div>
-      <TitleHeader />
-      <div className="my-4"></div>
-      <PracticeButton />
-      <AddWordsButton setModal={setModalOpen} />
-      <ProgressButton />
-      <div className="my-4"></div>
-      <div></div>
-    </main>
+    <>
+      <MyHead />
+      <main className="flex min-h-screen flex-col items-center justify-between">
+        {modalOpen && <AddWordsModal setModal={setModalOpen} userId={userId} />}
+        <div className="flex w-full justify-between py-4 px-4 pt-8   lg:px-24">
+          <LanguageSelectionButton />
+          <SignOutButton />
+        </div>
+        <TitleHeader />
+        <div className="my-4"></div>
+        <PracticeButton />
+        <AddWordsButton setModal={setModalOpen} />
+        <ProgressButton />
+        <div className="my-4"></div>
+        <div></div>
+      </main>
+    </>
   );
 }
 

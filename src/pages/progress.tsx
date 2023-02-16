@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-import type { GetServerSidePropsContext, NextPage } from "next/types";
+import type { GetStaticPropsContext, NextPage } from "next/types";
 import { api } from "../utils/api";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,20 +7,18 @@ import MyHead from "./components/myHead";
 import type { Practice, Word } from "@prisma/client";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
+import { NotLoggedInPage } from ".";
 
 const Home: NextPage = () => {
-  const { data: session } = useSession();
-  // should this be server side rendering? like in index.tsx?
-  if (!session?.user) {
-    return null;
+  const { data: session, status } = useSession();
+  if (status === "loading") {
+    return <div>Loading...</div>;
   }
-
-  return (
-    <>
-      <MyHead />
-      <ProgressPage userId={session.user.id} />
-    </>
-  );
+  if (!session || !session.user || !session.user.id) {
+    return <NotLoggedInPage />;
+  } else {
+    return <ProgressPage userId={session.user.id} />;
+  }
 };
 
 export default Home;
@@ -35,23 +33,26 @@ function ProgressPage({ userId }: { userId: string }) {
   }
   const practices = data.sort((a, b) => a.word.rank - b.word.rank);
   return (
-    <main className="flex min-h-screen flex-col justify-between">
-      <div className="flex items-center justify-between py-4 px-4 lg:px-24">
-        <LanguageSelectionButton />
-        <div className="px-4 py-4 text-4xl lg:text-8xl">
-          {t("Index.progressButton")}
+    <>
+      <MyHead />
+      <main className="flex min-h-screen flex-col justify-between">
+        <div className="flex items-center justify-between py-4 px-4 lg:px-24">
+          <LanguageSelectionButton />
+          <div className="px-4 py-4 text-4xl lg:text-8xl">
+            {t("Index.progressButton")}
+          </div>
+          <Link
+            href="/"
+            className="rounded-2xl border-4 px-2 text-xl lg:px-6 lg:py-2 lg:text-4xl "
+          >
+            {t("Revision.back")}
+          </Link>
         </div>
-        <Link
-          href="/"
-          className="rounded-2xl border-4 px-2 text-xl lg:px-6 lg:py-2 lg:text-4xl "
-        >
-          {t("Revision.back")}
-        </Link>
-      </div>
-      <div className="justify-center p-8 text-center text-xs md:text-lg lg:p-16 lg:text-xl">
-        <ProgressTable practices={practices} />
-      </div>
-    </main>
+        <div className="justify-center p-8 text-center text-xs md:text-lg lg:p-16 lg:text-xl">
+          <ProgressTable practices={practices} />
+        </div>
+      </main>
+    </>
   );
 }
 
@@ -146,7 +147,7 @@ function ProgressTable({
   );
 }
 
-export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+export async function getStaticProps(ctx: GetStaticPropsContext) {
   const locale = ctx.locale || "en";
   return {
     props: {
