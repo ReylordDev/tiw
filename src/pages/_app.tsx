@@ -11,6 +11,7 @@ const MyApp: AppType<{
   session: Session | null;
   messages: AbstractIntlMessages;
 }> = ({ Component, pageProps }) => {
+  console.log("pageProps", pageProps);
   return (
     <NextIntlProvider messages={pageProps.messages}>
       <SessionProvider session={pageProps.session}>

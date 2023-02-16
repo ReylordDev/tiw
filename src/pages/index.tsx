@@ -13,7 +13,7 @@ const Home: NextPage = () => {
     <>
       <MyHead />
       <main className="flex min-h-screen flex-col items-center justify-between">
-        <div className="flex w-full justify-between py-4 px-4 pt-8 lg:px-24  lg:pt-24">
+        <div className="flex w-full justify-between py-4 px-4 pt-8 lg:px-24">
           <LanguageSelectionButton />
         </div>
         <TitleHeader />
@@ -28,6 +28,22 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+export function NotLoggedInPage() {
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-between">
+      <div className="flex w-full justify-between py-4 px-4 pt-8 lg:px-24">
+        <LanguageSelectionButton />
+      </div>
+      <TitleHeader />
+      <div className="my-4"></div>
+      <NotLoggedInText />
+      <LogInButton />
+      <div className="my-4"></div>
+      <div></div>
+    </main>
+  );
+}
 
 function LanguageSelectionButton() {
   const t = useTranslations();

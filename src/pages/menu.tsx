@@ -1,50 +1,44 @@
-import type {
-  GetServerSidePropsContext,
-  InferGetServerSidePropsType,
-} from "next";
+import type { GetStaticPropsContext } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { api } from "../utils/api";
 import AddWordsModal from "./components/AddWordsModal";
-import { getServerAuthSession } from "../server/auth";
-import { signOut } from "next-auth/react";
-import MyHead from "./components/myHead";
+import { signOut, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
+import { NotLoggedInPage } from ".";
 
-function MenuPage({
-  userId,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const [modalOpen, setModalOpen] = useState(false);
-  const { data: user } = api.user.getById.useQuery({ id: userId });
-  if (!user) return null;
-  console.log(user);
-
-  return (
-    <>
-      <MyHead />
-      <main className="flex min-h-screen flex-col items-center justify-between">
-        {modalOpen && (
-          <AddWordsModal setModal={setModalOpen} userId={user?.id} />
-        )}
-        <div className="flex w-full justify-between py-4 px-4 pt-8   lg:px-24">
-          <LanguageSelectionButton />
-          <SignOutButton />
-        </div>
-        <TitleHeader />
-        <div className="my-4"></div>
-        <PracticeButton />
-        <AddWordsButton setModal={setModalOpen} />
-        <ProgressButton />
-        <div className="my-4"></div>
-        <div></div>
-      </main>
-    </>
-  );
+function MenuPage() {
+  const { data: session } = useSession();
+  console.log("session", session);
+  if (!session || !session.user || !session.user.id) {
+    return <NotLoggedInPage />;
+  } else {
+    return <MenuPageLoggedIn userId={session.user.id} />;
+  }
 }
 
 export default MenuPage;
+
+function MenuPageLoggedIn({ userId }: { userId: string }) {
+  const [modalOpen, setModalOpen] = useState(false);
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-between">
+      {modalOpen && <AddWordsModal setModal={setModalOpen} userId={userId} />}
+      <div className="flex w-full justify-between py-4 px-4 pt-8   lg:px-24">
+        <LanguageSelectionButton />
+        <SignOutButton />
+      </div>
+      <TitleHeader />
+      <div className="my-4"></div>
+      <PracticeButton />
+      <AddWordsButton setModal={setModalOpen} />
+      <ProgressButton />
+      <div className="my-4"></div>
+      <div></div>
+    </main>
+  );
+}
 
 function LanguageSelectionButton() {
   const t = useTranslations();
@@ -123,23 +117,11 @@ function ProgressButton() {
   );
 }
 
-// todo: remove server side rendering
-export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const session = await getServerAuthSession(ctx);
-  const locale = ctx.locale || "en";
-
-  if (!session?.user?.id) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/",
-      },
-    };
-  }
+export async function getStaticProps(ctx: GetStaticPropsContext) {
+  const locale = ctx.locale ?? "en";
 
   return {
     props: {
-      userId: session.user.id,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
       messages: (await import(`../../locales/${locale}.json`)).default,
     },
