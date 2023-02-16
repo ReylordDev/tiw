@@ -113,13 +113,13 @@ function Revision({ userId }: { userId: string }) {
             href="/progress"
             className="rounded-2xl border-4 px-2 text-xl lg:px-6 lg:py-2 lg:text-4xl "
           >
-            {t("Menu.progressButton")}
+            {t("Index.progressButton")}
           </Link>
           <p className="px-6 pt-20 text-center text-xl lg:px-20 lg:py-8 lg:text-3xl">
             {t("Revision.returnToMenu")}
           </p>
           <Link
-            href="menu"
+            href="/"
             className="rounded-2xl border-4 px-2 text-xl lg:px-6 lg:py-2 lg:text-4xl "
           >
             {t("Revision.back")}
@@ -251,7 +251,7 @@ function ProgressLink() {
       href={"/progress"}
       className="lg:border-b-6 rounded-sm border-b-4 px-1  py-1 text-4xl lg:px-3  lg:text-3xl "
     >
-      {t("Menu.progressButton")}
+      {t("Index.progressButton")}
     </Link>
   );
 }

@@ -3,9 +3,7 @@
     "titleHeader": "Top 1000 Italian Words",
     "notLoggedInText1": "You're not currently",
     "notLoggedInText2": "logged in.",
-    "logInButton": "Login"
-  },
-  "Menu": {
+    "logInButton": "Login",
     "practiceButton": "Practice",
     "progressButton": "Progress",
     "addWordsButton": "Add more Words",

@@ -3,9 +3,7 @@
     "titleHeader": "Die 1000 Häufigsten Italienischen Wörter",
     "notLoggedInText1": "Du bist nicht",
     "notLoggedInText2": "eingeloggt.",
-    "logInButton": "Einloggen"
-  },
-  "Menu": {
+    "logInButton": "Einloggen",
     "practiceButton": "Üben",
     "progressButton": "Fortschritt",
     "addWordsButton": "Mehr Wörter hinzufügen",

@@ -39,10 +39,10 @@ function ProgressPage({ userId }: { userId: string }) {
       <div className="flex items-center justify-between py-4 px-4 lg:px-24">
         <LanguageSelectionButton />
         <div className="px-4 py-4 text-4xl lg:text-8xl">
-          {t("Menu.progressButton")}
+          {t("Index.progressButton")}
         </div>
         <Link
-          href="menu"
+          href="/"
           className="rounded-2xl border-4 px-2 text-xl lg:px-6 lg:py-2 lg:text-4xl "
         >
           {t("Revision.back")}
@@ -71,7 +71,7 @@ function LanguageSelectionButton() {
         width={48}
         alt="Globe for language selection"
       />
-      {t("Menu.languageSelectionButton")}
+      {t("Index.languageSelectionButton")}
     </Link>
   );
 }

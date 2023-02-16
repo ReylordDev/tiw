@@ -9,14 +9,14 @@ export default function AddWordsModal(props: {
   const t = useTranslations();
   const [count, setCount] = useState<string>("");
   const { data, isLoading } = api.user.getById.useQuery({ id: props.userId });
-  if (!data || isLoading) return <div>Loading...</div>;
-  const currentRank = data.currentRankProgress;
   const { mutate: createPracticesFromRank } =
     api.practice.createPracticesFromRank.useMutation();
+  if (!data || isLoading) return <div>Loading...</div>;
+  const currentRank = data.currentRankProgress;
   return (
     <div className="absolute inset-0 flex items-center justify-center bg-black/90">
       <div className=" lg:border-6 rounded-2xl border-4 bg-green-900 px-6 py-4 text-center text-xl lg:px-14 lg:py-8 lg:text-4xl ">
-        <h3 className="pb-4 font-medium">{t("Menu.AddWordsModal.howMany")}</h3>
+        <h3 className="pb-4 font-medium">{t("Index.AddWordsModal.howMany")}</h3>
         <input
           type="number"
           value={count}
@@ -34,7 +34,7 @@ export default function AddWordsModal(props: {
               props.setModal(false);
             }}
           >
-            {t("Menu.AddWordsModal.cancelButton")}
+            {t("Index.AddWordsModal.cancelButton")}
           </button>
           <button
             className="rounded-md bg-[#121212] px-4 py-2"
@@ -47,7 +47,7 @@ export default function AddWordsModal(props: {
               props.setModal(false);
             }}
           >
-            {t("Menu.AddWordsModal.addButton")}
+            {t("Index.AddWordsModal.addButton")}
           </button>
         </div>
       </div>
