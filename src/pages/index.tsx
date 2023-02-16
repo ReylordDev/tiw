@@ -11,7 +11,7 @@ import MyHead from "./components/myHead";
 const Home: NextPage = () => {
   const { data: session, status } = useSession();
   if (status === "loading") {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
   if (!session || !session.user || !session.user.id) {
     return <NotLoggedInPage />;
@@ -61,6 +61,14 @@ function LogInButton() {
     >
       {t("logInButton")}
     </button>
+  );
+}
+
+export function Loader() {
+  return (
+    <div className="flex h-screen w-screen items-center justify-center">
+      <Image src="/rings.svg" alt="Loading" width={100} height={100}></Image>
+    </div>
   );
 }
 

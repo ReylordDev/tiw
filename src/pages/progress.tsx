@@ -7,12 +7,12 @@ import MyHead from "./components/myHead";
 import type { Practice, Word } from "@prisma/client";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
-import { NotLoggedInPage } from ".";
+import { Loader, NotLoggedInPage } from ".";
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession();
   if (status === "loading") {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
   if (!session || !session.user || !session.user.id) {
     return <NotLoggedInPage />;
@@ -29,7 +29,7 @@ function ProgressPage({ userId }: { userId: string }) {
     userId: userId,
   });
   if (!data) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
   const practices = data.sort((a, b) => a.word.rank - b.word.rank);
   return (

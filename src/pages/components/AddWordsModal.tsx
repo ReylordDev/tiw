@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
+import { Loader } from "..";
 import { api } from "../../utils/api";
 
 export default function AddWordsModal(props: {
@@ -11,7 +12,7 @@ export default function AddWordsModal(props: {
   const { data, isLoading } = api.user.getById.useQuery({ id: props.userId });
   const { mutate: createPracticesFromRank } =
     api.practice.createPracticesFromRank.useMutation();
-  if (!data || isLoading) return <div>Loading...</div>;
+  if (!data || isLoading) return <Loader />;
   const currentRank = data.currentRankProgress;
   return (
     <div className="absolute inset-0 flex items-center justify-center bg-black/90">

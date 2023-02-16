@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { NotLoggedInPage } from ".";
+import { Loader, NotLoggedInPage } from ".";
 import { completePractice } from "../server/revisionCalculations";
 import { api } from "../utils/api";
 import MyHead from "./components/myHead";
@@ -15,7 +15,7 @@ import MyHead from "./components/myHead";
 const Home: NextPage = () => {
   const { data: session, status } = useSession();
   if (status === "loading") {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
   if (!session || !session.user || !session.user.id) {
     return <NotLoggedInPage />;
@@ -50,11 +50,11 @@ function RevisionPage({ userId }: { userId: string }) {
       }
     );
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
   if (!practices || !revision) {
     console.log(practices);
-    return <div>Loading...</div>;
+    return <Loader />;
   }
   if (revision.length === 0 && !finished) {
     setFinished(true);
