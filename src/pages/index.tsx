@@ -56,7 +56,7 @@ function LogInButton() {
   const t = useTranslations("Index");
   return (
     <button
-      className="lg:border-6 rounded-2xl border-4 px-6 py-4 text-3xl lg:px-14 lg:py-8 lg:text-4xl"
+      className="lg:border-6 rounded-2xl border-2 px-6 py-4 text-3xl lg:px-14 lg:py-8 lg:text-4xl"
       onClick={() => void signIn()}
     >
       {t("logInButton")}
@@ -75,11 +75,12 @@ function MenuPageLoggedIn({ userId }: { userId: string }) {
           <LanguageSelectionButton />
           <SignOutButton />
         </div>
-        <TitleHeader />
-        <div className="my-4"></div>
-        <PracticeButton />
-        <AddWordsButton setModal={setModalOpen} />
-        <ProgressButton />
+        <div className="flex flex-col items-center justify-center gap-8">
+          <TitleHeader />
+          <PracticeButton />
+          <AddWordsButton setModal={setModalOpen} />
+          <ProgressButton />
+        </div>
         <div className="my-4"></div>
         <div></div>
       </main>
@@ -93,14 +94,14 @@ function LanguageSelectionButton() {
   const localeValue = locale === "en" ? "de" : "en";
   return (
     <Link
-      className="flex flex-row items-center gap-4 text-2xl lg:text-4xl"
+      className="flex flex-row items-center gap-4 rounded-2xl border-2 p-2 text-2xl lg:p-4 lg:text-4xl"
       href="/"
       locale={localeValue}
     >
       <Image
         src={"../globe.svg"}
-        height={48}
-        width={48}
+        height={32}
+        width={32}
         alt="Globe for language selection"
       />
       {t("Index.languageSelectionButton")}
@@ -112,7 +113,7 @@ function SignOutButton() {
   const t = useTranslations();
   return (
     <button
-      className="rounded-2xl border-4 px-2 text-xl lg:px-6 lg:py-2 lg:text-4xl "
+      className="rounded-2xl border-2 px-2 text-xl lg:px-6 lg:py-2 lg:text-4xl "
       onClick={() => void signOut()}
     >
       {t("Index.signOutButton")}
@@ -123,8 +124,10 @@ function SignOutButton() {
 function TitleHeader() {
   const t = useTranslations();
   return (
-    <div className="lg:border-7 rounded-2xl border-4 px-6 py-4 text-2xl lg:rounded-[36px] lg:px-20 lg:py-8 lg:text-7xl">
-      {t("Index.titleHeader")}
+    <div className="px-8">
+      <div className="mb-8 rounded-2xl border-4 px-4 py-4 text-center text-2xl md:text-4xl lg:rounded-[36px] lg:px-20 lg:py-8 lg:text-7xl">
+        {t("Index.titleHeader")}
+      </div>
     </div>
   );
 }
@@ -133,7 +136,7 @@ function PracticeButton() {
   const t = useTranslations();
   return (
     <Link
-      className="lg:border-6 rounded-2xl border-4 px-6 py-4 text-3xl lg:px-14 lg:py-8 lg:text-4xl"
+      className="lg:border-6 rounded-2xl border-2 px-6 py-4 text-3xl lg:px-14 lg:py-8 lg:text-4xl"
       href={"revision"}
     >
       {t("Index.practiceButton")}
@@ -145,7 +148,7 @@ function AddWordsButton(props: { setModal: (open: boolean) => void }) {
   const t = useTranslations();
   return (
     <button
-      className="lg:border-6 rounded-2xl border-4 px-6 py-4 text-3xl lg:px-14 lg:py-8 lg:text-4xl"
+      className="lg:border-6 mx-16 rounded-2xl border-2 px-6 py-4 text-3xl lg:w-auto lg:px-14 lg:py-8 lg:text-4xl"
       onClick={() => {
         props.setModal(true);
       }}
@@ -159,7 +162,7 @@ function ProgressButton() {
   const t = useTranslations();
   return (
     <Link
-      className="lg:border-6 rounded-2xl border-4 px-6 py-4 text-3xl lg:px-14 lg:py-8 lg:text-4xl"
+      className="lg:border-6 rounded-2xl border-2 px-6 py-4 text-3xl lg:px-14 lg:py-8 lg:text-4xl"
       href={"progress"}
     >
       {t("Index.progressButton")}
