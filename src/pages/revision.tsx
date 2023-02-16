@@ -1,5 +1,5 @@
 import type { Practice, Word } from "@prisma/client";
-import type { GetServerSidePropsContext } from "next";
+import type { GetServerSidePropsContext, GetStaticPropsContext } from "next";
 import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
@@ -288,7 +288,8 @@ function IncorrectButton({
   );
 }
 
-export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+// consider server side rendering this file
+export async function getStaticProps(ctx: GetStaticPropsContext) {
   const locale = ctx.locale || "en";
   return {
     props: {
