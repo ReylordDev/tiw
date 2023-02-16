@@ -102,7 +102,10 @@ function LanguageSelectionButton() {
 function SignOutButton() {
   const t = useTranslations();
   return (
-    <button className="text-2xl lg:text-4xl" onClick={() => void signOut()}>
+    <button
+      className="rounded-2xl border-4 px-2 text-xl lg:px-6 lg:py-2 lg:text-4xl "
+      onClick={() => void signOut()}
+    >
       {t("Index.signOutButton")}
     </button>
   );
