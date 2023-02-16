@@ -8,8 +8,10 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
 
 function Home() {
-  const { data: session } = useSession();
-  console.log("session", session);
+  const { data: session, status } = useSession();
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
   if (!session || !session.user || !session.user.id) {
     return <NotLoggedInPage />;
   } else {
