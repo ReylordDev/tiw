@@ -99,7 +99,7 @@ function RevisionPage({ userId }: { userId: string }) {
         {finished && (
           <>
             <div></div>
-            <div className="lg:border-7 rounded-3xl border-b-4 px-6 py-4 text-5xl lg:rounded-[36px] lg:px-20 lg:py-8 lg:text-7xl">
+            <div className="rounded-3xl border-b-4 px-6 py-4 text-center text-4xl lg:rounded-[36px] lg:border-4 lg:px-20 lg:py-8 lg:text-7xl">
               {t("Revision.doneText")}
             </div>
             <p className="px-6 py-4 text-center text-2xl lg:px-20 lg:py-8 lg:text-4xl">
@@ -112,7 +112,7 @@ function RevisionPage({ userId }: { userId: string }) {
             </p>
             <Link
               href="/progress"
-              className="rounded-2xl border-4 px-2 text-xl lg:px-6 lg:py-2 lg:text-4xl "
+              className="rounded-3xl border-2 px-4 py-2 text-xl lg:px-6 lg:py-2 lg:text-4xl "
             >
               {t("Index.progressButton")}
             </Link>
@@ -121,7 +121,7 @@ function RevisionPage({ userId }: { userId: string }) {
             </p>
             <Link
               href="/"
-              className="rounded-2xl border-4 px-2 text-xl lg:px-6 lg:py-2 lg:text-4xl "
+              className="rounded-3xl border-2 px-4 py-2 text-xl lg:px-6 lg:py-2 lg:text-4xl "
             >
               {t("Revision.back")}
             </Link>
@@ -167,15 +167,23 @@ function RevisionPage({ userId }: { userId: string }) {
 }
 
 function LanguageSelectionButton() {
+  const t = useTranslations();
+  const { locale } = useRouter();
+  const localeValue = locale === "en" ? "de" : "en";
   return (
-    <div className="invisible">
+    <Link
+      className="flex flex-row items-center gap-4 rounded-2xl border-2 p-2 text-2xl lg:p-4 lg:text-4xl"
+      href="/revision"
+      locale={localeValue}
+    >
       <Image
-        src={"globe.svg"}
-        height={48}
-        width={48}
+        src={"../globe.svg"}
+        height={32}
+        width={32}
         alt="Globe for language selection"
       />
-    </div>
+      {t("Index.languageSelectionButton")}
+    </Link>
   );
 }
 
@@ -187,7 +195,7 @@ function RemainingWordsDisplay({
   index: number;
 }) {
   return (
-    <div className="rounded-2xl border-4 px-4 py-2 text-2xl  lg:hidden">
+    <div className="rounded-2xl border-4 px-4 py-2 text-2xl lg:hidden">
       {index}/{length}
     </div>
   );
