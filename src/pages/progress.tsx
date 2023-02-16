@@ -35,8 +35,8 @@ function ProgressPage({ userId }: { userId: string }) {
   return (
     <>
       <MyHead />
-      <main className="flex min-h-screen flex-col justify-between">
-        <div className="flex items-center justify-between py-4 px-4 lg:px-24">
+      <main className="flex min-h-screen flex-col justify-between ">
+        <div className="flex items-center justify-between  py-4 px-4 lg:px-24">
           <LanguageSelectionButton />
           <Link
             href="/"
@@ -45,10 +45,10 @@ function ProgressPage({ userId }: { userId: string }) {
             {t("Revision.back")}
           </Link>
         </div>
-        <div className="mx-16 my-4 rounded-2xl border-2 px-4 py-4 text-center text-4xl md:mx-32 lg:text-8xl">
+        <div className="mx-16 my-4 rounded-2xl border-2 px-4 py-4 text-center text-4xl md:mx-32 lg:mx-96 lg:text-8xl">
           {t("Index.progressButton")}
         </div>
-        <div className="justify-center text-center text-xs md:p-8 md:text-lg lg:p-16 lg:text-xl">
+        <div className="justify-center overflow-scroll text-center text-xs md:p-8 md:text-lg lg:p-16 lg:text-xl">
           <ProgressTable practices={practices} />
         </div>
       </main>

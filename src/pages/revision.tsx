@@ -151,14 +151,7 @@ function RevisionPage({ userId }: { userId: string }) {
               solutionVisible={solutionVisible}
               handleSolutionToggle={handleSolutionToggle}
             />
-            <div className="flex w-full items-center justify-center py-4 px-4 lg:justify-between lg:pb-12">
-              <div className="lg:w-32"></div>
-              <ProgressLink />
-              <RemainingWordsDisplayLarge
-                length={revision.length}
-                index={wordIndex + 1}
-              />
-            </div>
+            <ProgressLink />
           </>
         )}
       </main>
@@ -195,21 +188,7 @@ function RemainingWordsDisplay({
   index: number;
 }) {
   return (
-    <div className="rounded-2xl border-4 px-4 py-2 text-2xl lg:hidden">
-      {index}/{length}
-    </div>
-  );
-}
-
-function RemainingWordsDisplayLarge({
-  length,
-  index,
-}: {
-  length: number;
-  index: number;
-}) {
-  return (
-    <div className="invisible w-0 rounded-2xl text-4xl lg:visible lg:w-auto lg:border-4 lg:px-6 lg:py-3">
+    <div className="rounded-2xl border-2 p-2 text-2xl lg:p-4 lg:text-4xl">
       {index}/{length}
     </div>
   );
@@ -261,7 +240,7 @@ function ProgressLink() {
   return (
     <Link
       href={"/progress"}
-      className="lg:border-b-6 rounded-sm border-b-4 px-1  py-1 text-4xl lg:px-3  lg:text-3xl "
+      className="lg:border-b-6 mb-8 rounded-sm border-b-2 px-1 py-1 text-2xl md:mt-4 md:border-b-4 md:text-3xl lg:px-3"
     >
       {t("Index.progressButton")}
     </Link>
@@ -276,7 +255,7 @@ function CorrectButton({
   const t = useTranslations();
   return (
     <button
-      className="rounded-2xl border-2 bg-green-900 px-7 py-2 text-2xl"
+      className="rounded-2xl border-2 bg-green-900 px-7 py-2 text-2xl md:mx-16 md:border-4 lg:py-8 lg:px-12 lg:text-4xl"
       onClick={() => handleSubmit(true)}
     >
       {t("Revision.correct")}
@@ -292,7 +271,7 @@ function IncorrectButton({
   const t = useTranslations();
   return (
     <button
-      className="rounded-2xl border-2 bg-red-900 px-4 py-2 text-2xl"
+      className="rounded-2xl border-2 bg-red-900 px-7 py-2 text-2xl md:mx-16 md:border-4 md:text-3xl lg:py-8 lg:px-12 lg:text-4xl"
       onClick={() => handleSubmit(false)}
     >
       {t("Revision.incorrect")}
