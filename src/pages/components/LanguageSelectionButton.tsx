@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
 
-export function LanguageSelectionButton({ url }: { url: string }) {
+export default function LanguageSelectionButton({ url }: { url: string }) {
   const t = useTranslations();
   const { locale } = useRouter();
   const localeValue = locale === "en" ? "de" : "en";

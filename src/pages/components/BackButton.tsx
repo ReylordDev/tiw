@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 
-export function BackButton() {
+export default function BackButton() {
   const t = useTranslations();
   return (
     <Link
