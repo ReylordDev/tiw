@@ -84,18 +84,14 @@ export const practiceRouter = createTRPCRouter({
         .catch((err) => {
           console.log(err);
         });
-      ctx.prisma.user
-        .update({
-          where: {
-            id: input.userId,
-          },
-          data: {
-            currentRankProgress: input.rank + input.count,
-          },
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      return ctx.prisma.user.update({
+        where: {
+          id: input.userId,
+        },
+        data: {
+          currentRankProgress: input.rank + input.count,
+        },
+      });
     }),
   getPracticesWithWordsByUserId: protectedProcedure
     .input(z.object({ userId: z.string() }))

@@ -2,11 +2,14 @@ import type { GetStaticPropsContext } from "next";
 import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { Loader, NotLoggedInPage } from ".";
 import { api } from "../utils/api";
 import { BackButton } from "./components/BackButton";
 import { LanguageSelectionButton } from "./components/LanguageSelectionButton";
+import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession();
@@ -23,7 +26,6 @@ const Home: NextPage = () => {
 export default Home;
 
 function AddWordsPage({ userId }: { userId: string }) {
-  const [count, setCount] = useState<string>("10");
   return (
     <>
       <main className="min-h-screen">
@@ -33,13 +35,7 @@ function AddWordsPage({ userId }: { userId: string }) {
         </div>
         <div className="flex flex-col items-center justify-start gap-4 pt-4 lg:gap-16 lg:pt-8">
           <TitleHeader />
-          <form className="flex w-3/4 flex-col items-center justify-center gap-8 p-4 lg:gap-12">
-            <WordCountInput count={count} setCount={setCount} />
-            <div className="flex justify-around gap-8 py-4 md:gap-12 lg:gap-32">
-              <CancelButton />
-              <AddButton userId={userId} count={count} />
-            </div>
-          </form>
+          <AddWordsForm userId={userId} />
         </div>
       </main>
     </>
@@ -57,40 +53,96 @@ function TitleHeader() {
   );
 }
 
-function CancelButton() {
-  const t = useTranslations();
-  return (
-    <button
-      className="w-32 rounded-md border-2 bg-red-900 px-4 py-2 text-lg shadow-xl 
-      md:w-48 md:rounded-xl md:py-4 md:text-3xl lg:w-64 lg:rounded-2xl lg:py-6 lg:text-4xl"
-      onClick={() => {
-        console.log("cancel");
-      }}
-    >
-      {t("Index.AddWordsModal.cancelButton")}
-    </button>
-  );
-}
-
-function AddButton({ userId, count }: { userId: string; count: string }) {
+function AddWordsForm({ userId }: { userId: string }) {
   const { data: user, isLoading } = api.user.getCurrentRank.useQuery({
     userId: userId,
   });
+  const [count, setCount] = useState<string>("10");
+  const [loading, setLoading] = useState(false);
+  if (isLoading || !user) {
+    return <Loader />;
+  }
+  return (
+    <form className="flex w-3/4 flex-col items-center justify-center gap-8 p-4 lg:gap-12">
+      {loading && (
+        <div className="absolute flex h-full w-full items-center justify-center rounded-xl bg-black bg-opacity-50">
+          <Image
+            src="/rings.svg"
+            alt="Loading"
+            width={100}
+            height={100}
+          ></Image>
+        </div>
+      )}
+      <>
+        <WordCountInput count={count} setCount={setCount} />
+        <div className="flex justify-around gap-8 py-4 md:gap-12 lg:gap-32">
+          <CancelButton />
+          <AddButton
+            userId={userId}
+            count={count}
+            rank={user.currentRankProgress}
+            setLoading={setLoading}
+          />
+        </div>
+      </>
+    </form>
+  );
+}
+
+function CancelButton() {
   const t = useTranslations();
+  return (
+    <Link
+      className="w-32 rounded-md border-2 bg-red-900 px-4 py-2 text-center text-lg 
+      shadow-xl md:w-48 md:rounded-xl md:py-4 md:text-3xl lg:w-64 lg:rounded-2xl lg:py-6 lg:text-4xl"
+      href={"/"}
+    >
+      {t("Index.AddWordsModal.cancelButton")}
+    </Link>
+  );
+}
+
+function AddButton({
+  userId,
+  count,
+  rank,
+  setLoading,
+}: {
+  userId: string;
+  count: string;
+  rank: number;
+  setLoading: (value: boolean) => void;
+}) {
+  const t = useTranslations();
+  const router = useRouter();
   const { mutate: createPracticesFromRank } =
     api.practice.createPracticesFromRank.useMutation();
-  if (!user?.currentRankProgress || isLoading) return <Loader />;
+
   return (
     <button
       className="w-32 rounded-md border-2 bg-green-900 px-4 py-2 text-lg shadow-xl 
       md:w-48 md:rounded-xl md:py-4 md:text-3xl lg:w-64 lg:rounded-2xl lg:py-6 lg:text-4xl"
-      onClick={() => {
-        createPracticesFromRank({
-          userId: userId,
-          count: parseInt(count),
-          rank: user.currentRankProgress,
-        });
-        console.log("add");
+      onClick={(e) => {
+        e.preventDefault();
+        setLoading(true);
+        createPracticesFromRank(
+          {
+            userId: userId,
+            count: parseInt(count),
+            rank: rank,
+          },
+          {
+            onSuccess: () => {
+              setLoading(false);
+              router.push("/").catch((e) => console.error(e));
+            },
+            onError(error, variables, context) {
+              setLoading(false);
+              console.error(error, variables, context);
+            },
+          }
+        );
       }}
     >
       {t("Index.AddWordsModal.addButton")}

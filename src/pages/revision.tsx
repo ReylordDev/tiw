@@ -7,9 +7,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Loader, NotLoggedInPage } from ".";
-import { LanguageSelectionButton } from "LanguageSelectionButton";
 import { completePractice } from "../server/revisionCalculations";
 import { api } from "../utils/api";
+import { LanguageSelectionButton } from "./components/LanguageSelectionButton";
 import MyHead from "./components/myHead";
 
 const Home: NextPage = () => {
@@ -130,7 +130,7 @@ function RevisionPage({ userId }: { userId: string }) {
         )}
         {!finished && (
           <>
-            <div className="flex w-full justify-between py-4 px-4 pt-8 lg:px-24  lg:pt-24">
+            <div className="flex w-full items-center justify-between py-4 px-4 pt-8 lg:px-24 lg:pt-24">
               <LanguageSelectionButton url="/revision" />
               <RemainingWordsDisplay
                 length={revision.length}

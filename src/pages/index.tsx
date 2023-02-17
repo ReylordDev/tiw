@@ -86,7 +86,7 @@ function MenuPageLoggedIn({ userId }: { userId: string }) {
         <div className="flex flex-col items-center justify-center gap-8">
           <TitleHeader />
           <PracticeButton />
-          <AddWordsButton setModal={setModalOpen} />
+          <AddWordsButton />
           <ProgressButton />
         </div>
         <div className="my-4"></div>
@@ -131,17 +131,15 @@ function PracticeButton() {
   );
 }
 
-function AddWordsButton(props: { setModal: (open: boolean) => void }) {
+function AddWordsButton() {
   const t = useTranslations();
   return (
-    <button
+    <Link
+      href={"/add"}
       className="lg:border-6 mx-16 rounded-2xl border-2 px-6 py-4 text-3xl lg:w-auto lg:px-14 lg:py-8 lg:text-4xl"
-      onClick={() => {
-        props.setModal(true);
-      }}
     >
       {t("Index.addWordsButton")}
-    </button>
+    </Link>
   );
 }
 
