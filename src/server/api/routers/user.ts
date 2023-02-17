@@ -29,4 +29,13 @@ export const userRouter = createTRPCRouter({
       console.log(result);
       return result;
     }),
+  getCurrentRank: protectedProcedure
+    .input(z.object({ userId: z.string() }))
+    .query(({ ctx, input }) => {
+      const result = ctx.prisma.user.findUnique({
+        where: { id: input.userId },
+        select: { currentRankProgress: true },
+      });
+      return result;
+    }),
 });
