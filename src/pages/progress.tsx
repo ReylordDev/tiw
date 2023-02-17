@@ -25,13 +25,6 @@ export default Home;
 
 function ProgressPage({ userId }: { userId: string }) {
   const t = useTranslations();
-  const { data } = api.practice.getPracticesWithWordsByUserId.useQuery({
-    userId: userId,
-  });
-  if (!data) {
-    return <Loader />;
-  }
-  const practices = data.sort((a, b) => a.word.rank - b.word.rank);
   return (
     <>
       <MyHead />
@@ -49,7 +42,10 @@ function ProgressPage({ userId }: { userId: string }) {
           {t("Index.progressButton")}
         </div>
         <div className="justify-center overflow-scroll text-center text-xs md:p-8 md:text-lg lg:p-16 lg:text-xl">
-          <ProgressTable practices={practices} />
+          <table className="w-full table-auto">
+            <TableHead />
+            <TableBody userId={userId} />
+          </table>
         </div>
       </main>
     </>
@@ -107,43 +103,43 @@ function TableHead() {
   );
 }
 
-function ProgressTable({
-  practices,
-}: {
-  practices: (Practice & { word: Word })[];
-}) {
+function TableBody({ userId }: { userId: string }) {
   const { locale } = useRouter();
+  const { data } = api.practice.getPracticesWithWordsByUserId.useQuery({
+    userId: userId,
+  });
+  if (!data) {
+    return <Loader />;
+  }
+  const practices = data.sort((a, b) => a.word.rank - b.word.rank);
   return (
-    <table className="w-full table-auto">
-      <TableHead />
-      <tbody>
-        {practices.map((practice) => {
-          return (
-            <tr key={practice.id}>
-              <td className="border p-2 lg:px-8">{practice.word.rank}</td>
-              <td className="border p-2 lg:px-8">{practice.word.italian}</td>
-              {locale === "en" && (
-                <td className="border p-2 md:whitespace-nowrap lg:px-8">
-                  {practice.word.english}
-                </td>
-              )}
-              {locale === "de" && (
-                <td className="border p-2 md:whitespace-nowrap lg:px-8">
-                  {practice.word.german}
-                </td>
-              )}
-              <td className="border p-2 lg:px-8">
-                {practice.lastPractice.toLocaleDateString()}
+    <tbody>
+      {practices.map((practice) => {
+        return (
+          <tr key={practice.id}>
+            <td className="border p-2 lg:px-8">{practice.word.rank}</td>
+            <td className="border p-2 lg:px-8">{practice.word.italian}</td>
+            {locale === "en" && (
+              <td className="border p-2 md:whitespace-nowrap lg:px-8">
+                {practice.word.english}
               </td>
-              <td className="border p-2 lg:px-8">
-                {practice.nextPractice.toLocaleDateString()}
+            )}
+            {locale === "de" && (
+              <td className="border p-2 md:whitespace-nowrap lg:px-8">
+                {practice.word.german}
               </td>
-              <td className="border p-2 lg:px-8">{practice.counter}</td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+            )}
+            <td className="border p-2 lg:px-8">
+              {practice.lastPractice.toLocaleDateString()}
+            </td>
+            <td className="border p-2 lg:px-8">
+              {practice.nextPractice.toLocaleDateString()}
+            </td>
+            <td className="border p-2 lg:px-8">{practice.counter}</td>
+          </tr>
+        );
+      })}
+    </tbody>
   );
 }
 
