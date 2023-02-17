@@ -8,12 +8,13 @@ export default function AddWordsModal(props: {
   userId: string;
 }) {
   const t = useTranslations();
-  const [count, setCount] = useState<string>("");
+  const [count, setCount] = useState<string>("10");
   const { data, isLoading } = api.user.getById.useQuery({ id: props.userId });
   const { mutate: createPracticesFromRank } =
     api.practice.createPracticesFromRank.useMutation();
   if (!data || isLoading) return <Loader />;
   const currentRank = data.currentRankProgress;
+
   return (
     <div className="absolute inset-0 flex items-center justify-center bg-black/90">
       <div className=" lg:border-6 rounded-2xl border-4 bg-green-900 px-6 py-4 text-center text-xl lg:px-14 lg:py-8 lg:text-4xl ">
