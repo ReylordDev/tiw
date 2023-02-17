@@ -17,14 +17,16 @@ export const userRouter = createTRPCRouter({
   updateCurrentRank: protectedProcedure
     .input(
       z.object({
-        id: z.string(),
+        userId: z.string(),
         newRank: z.number(),
       })
     )
     .mutation(({ ctx, input }) => {
-      return ctx.prisma.user.update({
-        where: { id: input.id },
+      const result = ctx.prisma.user.update({
+        where: { id: input.userId },
         data: { currentRankProgress: input.newRank },
       });
+      console.log(result);
+      return result;
     }),
 });
