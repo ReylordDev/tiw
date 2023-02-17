@@ -6,7 +6,7 @@ import AddWordsModal from "./components/AddWordsModal";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import MyHead from "./components/myHead";
-import { LanguageSelectionButton } from "./components/LanguageSelectionButton";
+import LanguageSelectionButton from "./components/LanguageSelectionButton";
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession();

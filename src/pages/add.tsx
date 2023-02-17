@@ -7,9 +7,9 @@ import Image from "next/image";
 import { useState } from "react";
 import { Loader, NotLoggedInPage } from ".";
 import { api } from "../utils/api";
-import { BackButton } from "./components/BackButton";
-import { LanguageSelectionButton } from "./components/LanguageSelectionButton";
 import { useRouter } from "next/router";
+import LanguageSelectionButton from "./components/LanguageSelectionButton";
+import { BackButton } from "./progress";
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession();

@@ -6,7 +6,7 @@ import MyHead from "./components/myHead";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
 import { Loader, NotLoggedInPage } from ".";
-import { LanguageSelectionButton } from "./components/LanguageSelectionButton";
+import LanguageSelectionButton from "./components/LanguageSelectionButton";
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession();
