@@ -28,7 +28,7 @@ export function NotLoggedInPage() {
       <MyHead />
       <main className="flex min-h-screen flex-col items-center justify-between">
         <div className="flex w-full justify-between py-4 px-4 pt-8 lg:px-24">
-          <LanguageSelectionButton />
+          <LanguageSelectionButton url="/" />
         </div>
         <TitleHeader />
         <div className="my-4"></div>
@@ -80,7 +80,7 @@ function MenuPageLoggedIn({ userId }: { userId: string }) {
       <main className="flex min-h-screen flex-col items-center justify-between">
         {modalOpen && <AddWordsModal setModal={setModalOpen} userId={userId} />}
         <div className="flex w-full justify-between py-4 px-4 pt-8   lg:px-24">
-          <LanguageSelectionButton />
+          <LanguageSelectionButton url="/" />
           <SignOutButton />
         </div>
         <div className="flex flex-col items-center justify-center gap-8">
@@ -96,14 +96,14 @@ function MenuPageLoggedIn({ userId }: { userId: string }) {
   );
 }
 
-function LanguageSelectionButton() {
+export function LanguageSelectionButton({ url }: { url: string }) {
   const t = useTranslations();
   const { locale } = useRouter();
   const localeValue = locale === "en" ? "de" : "en";
   return (
     <Link
       className="flex flex-row items-center gap-4 rounded-2xl border-2 p-2 text-2xl lg:p-4 lg:text-4xl"
-      href="/"
+      href={url}
       locale={localeValue}
     >
       <Image

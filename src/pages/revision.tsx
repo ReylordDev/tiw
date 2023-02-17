@@ -3,11 +3,10 @@ import type { GetStaticPropsContext } from "next";
 import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { Loader, NotLoggedInPage } from ".";
+import { LanguageSelectionButton, Loader, NotLoggedInPage } from ".";
 import { completePractice } from "../server/revisionCalculations";
 import { api } from "../utils/api";
 import MyHead from "./components/myHead";
@@ -131,7 +130,7 @@ function RevisionPage({ userId }: { userId: string }) {
         {!finished && (
           <>
             <div className="flex w-full justify-between py-4 px-4 pt-8 lg:px-24  lg:pt-24">
-              <LanguageSelectionButton />
+              <LanguageSelectionButton url="/revision" />
               <RemainingWordsDisplay
                 length={revision.length}
                 index={wordIndex + 1}
@@ -156,27 +155,6 @@ function RevisionPage({ userId }: { userId: string }) {
         )}
       </main>
     </>
-  );
-}
-
-function LanguageSelectionButton() {
-  const t = useTranslations();
-  const { locale } = useRouter();
-  const localeValue = locale === "en" ? "de" : "en";
-  return (
-    <Link
-      className="flex flex-row items-center gap-4 rounded-2xl border-2 p-2 text-2xl lg:p-4 lg:text-4xl"
-      href="/revision"
-      locale={localeValue}
-    >
-      <Image
-        src={"../globe.svg"}
-        height={32}
-        width={32}
-        alt="Globe for language selection"
-      />
-      {t("Index.languageSelectionButton")}
-    </Link>
   );
 }
 

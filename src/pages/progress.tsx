@@ -1,13 +1,11 @@
 import { useSession } from "next-auth/react";
 import type { GetStaticPropsContext, NextPage } from "next/types";
 import { api } from "../utils/api";
-import Image from "next/image";
 import Link from "next/link";
 import MyHead from "./components/myHead";
-import type { Practice, Word } from "@prisma/client";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
-import { Loader, NotLoggedInPage } from ".";
+import { LanguageSelectionButton, Loader, NotLoggedInPage } from ".";
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession();
@@ -30,7 +28,7 @@ function ProgressPage({ userId }: { userId: string }) {
       <MyHead />
       <main className="flex min-h-screen flex-col justify-between ">
         <div className="flex items-center justify-between  py-4 px-4 lg:px-24">
-          <LanguageSelectionButton />
+          <LanguageSelectionButton url="/progress" />
           <Link
             href="/"
             className="rounded-2xl border-2 p-2 text-2xl lg:px-6 lg:py-2 lg:text-4xl "
@@ -49,27 +47,6 @@ function ProgressPage({ userId }: { userId: string }) {
         </div>
       </main>
     </>
-  );
-}
-
-function LanguageSelectionButton() {
-  const t = useTranslations();
-  const { locale } = useRouter();
-  const localeValue = locale === "en" ? "de" : "en";
-  return (
-    <Link
-      className="flex flex-row items-center gap-4 rounded-2xl border-2 p-2 text-2xl lg:p-4 lg:text-4xl"
-      href="/progress"
-      locale={localeValue}
-    >
-      <Image
-        src={"../globe.svg"}
-        height={32}
-        width={32}
-        alt="Globe for language selection"
-      />
-      {t("Index.languageSelectionButton")}
-    </Link>
   );
 }
 
