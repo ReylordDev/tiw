@@ -5,7 +5,8 @@ import Link from "next/link";
 import MyHead from "./components/myHead";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
-import { LanguageSelectionButton, Loader, NotLoggedInPage } from ".";
+import { Loader, NotLoggedInPage } from ".";
+import { LanguageSelectionButton } from "./components/LanguageSelectionButton";
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession();
@@ -29,12 +30,7 @@ function ProgressPage({ userId }: { userId: string }) {
       <main className="flex min-h-screen flex-col justify-between ">
         <div className="flex items-center justify-between  py-4 px-4 lg:px-24">
           <LanguageSelectionButton url="/progress" />
-          <Link
-            href="/"
-            className="rounded-2xl border-2 p-2 text-2xl lg:px-6 lg:py-2 lg:text-4xl "
-          >
-            {t("Revision.back")}
-          </Link>
+          <BackButton />
         </div>
         <div className="mx-16 my-4 rounded-2xl border-2 px-4 py-4 text-center text-4xl md:mx-32 lg:mx-96 lg:text-8xl">
           {t("Index.progressButton")}
@@ -47,6 +43,18 @@ function ProgressPage({ userId }: { userId: string }) {
         </div>
       </main>
     </>
+  );
+}
+
+export function BackButton() {
+  const t = useTranslations();
+  return (
+    <Link
+      href="/"
+      className="rounded-2xl border-2 p-2 text-2xl lg:px-6 lg:py-2 lg:text-4xl "
+    >
+      {t("Revision.back")}
+    </Link>
   );
 }
 

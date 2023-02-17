@@ -5,8 +5,8 @@ import { useState } from "react";
 import AddWordsModal from "./components/AddWordsModal";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/router";
 import MyHead from "./components/myHead";
+import { LanguageSelectionButton } from "./components/LanguageSelectionButton";
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession();
@@ -93,27 +93,6 @@ function MenuPageLoggedIn({ userId }: { userId: string }) {
         <div></div>
       </main>
     </>
-  );
-}
-
-export function LanguageSelectionButton({ url }: { url: string }) {
-  const t = useTranslations();
-  const { locale } = useRouter();
-  const localeValue = locale === "en" ? "de" : "en";
-  return (
-    <Link
-      className="flex flex-row items-center gap-4 rounded-2xl border-2 p-2 text-2xl lg:p-4 lg:text-4xl"
-      href={url}
-      locale={localeValue}
-    >
-      <Image
-        src={"../globe.svg"}
-        height={32}
-        width={32}
-        alt="Globe for language selection"
-      />
-      {t("Index.languageSelectionButton")}
-    </Link>
   );
 }
 
