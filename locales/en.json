@@ -11,9 +11,9 @@
     "languageSelectionButton": "English"
   },
   "Add": {
-    "howMany": "Wie viele Wörter möchtest du hinzufügen?",
-    "cancelButton": "Abbrechen",
-    "addButton": "Hinzufügen"
+    "howMany": "How many words would you like to add?",
+    "cancelButton": "Cancel",
+    "addButton": "Add"
   },
   "Revision": {
     "doneText": "You're done!",
