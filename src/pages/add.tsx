@@ -52,7 +52,7 @@ function TitleHeader() {
   return (
     <div className="px-4 md:px-8 lg:px-12">
       <div className="mb-8 rounded-2xl border-4 px-4 py-4 text-center text-2xl md:text-4xl lg:py-6 lg:text-5xl">
-        {t("Index.AddWordsModal.howMany")}
+        {t("Add.howMany")}
       </div>
     </div>
   );
@@ -103,7 +103,7 @@ function CancelButton() {
       shadow-xl md:w-48 md:rounded-xl md:py-4 md:text-3xl lg:w-64 lg:rounded-2xl lg:py-6 lg:text-4xl"
       href={"/"}
     >
-      {t("Index.AddWordsModal.cancelButton")}
+      {t("Add.cancelButton")}
     </Link>
   );
 }
@@ -150,7 +150,7 @@ function AddButton({
         );
       }}
     >
-      {t("Index.AddWordsModal.addButton")}
+      {t("Add.addButton")}
     </button>
   );
 }

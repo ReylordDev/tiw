@@ -8,12 +8,12 @@
     "progressButton": "Progress",
     "addWordsButton": "Add more Words",
     "signOutButton": "Sign out",
-    "languageSelectionButton": "English",
-    "AddWordsModal": {
-      "howMany": "How many words do you want to add?",
-      "cancelButton": "Cancel",
-      "addButton": "Add"
-    }
+    "languageSelectionButton": "English"
+  },
+  "Add": {
+    "howMany": "Wie viele Wörter möchtest du hinzufügen?",
+    "cancelButton": "Abbrechen",
+    "addButton": "Hinzufügen"
   },
   "Revision": {
     "doneText": "You're done!",

@@ -1,8 +1,6 @@
 import type { GetStaticPropsContext, NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import AddWordsModal from "../components/AddWordsModal";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import MyHead from "../components/myHead";
@@ -10,15 +8,14 @@ import LanguageSelectionButton from "../components/LanguageSelectionButton";
 import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   if (status === "loading") {
     return <Loader />;
   }
-  if (!session || !session.user || !session.user.id) {
+  if (status === "unauthenticated") {
     return <NotLoggedInPage />;
-  } else {
-    return <MenuPageLoggedIn userId={session.user.id} />;
   }
+  return <MenuPageLoggedIn />;
 };
 
 export default Home;
@@ -77,8 +74,7 @@ export function Loader() {
   );
 }
 
-function MenuPageLoggedIn({ userId }: { userId: string }) {
-  const [modalOpen, setModalOpen] = useState(false);
+function MenuPageLoggedIn() {
   const { locale } = useRouter();
   if (!locale) {
     return <Loader />;
@@ -88,7 +84,6 @@ function MenuPageLoggedIn({ userId }: { userId: string }) {
     <>
       <MyHead />
       <main className="flex min-h-screen flex-col items-center justify-between">
-        {modalOpen && <AddWordsModal setModal={setModalOpen} userId={userId} />}
         <div className="flex w-full justify-between py-4 px-4 pt-8   lg:px-24">
           <LanguageSelectionButton url="/" locale={locale} />
           <SignOutButton />
