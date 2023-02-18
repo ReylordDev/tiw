@@ -26,11 +26,16 @@ const Home: NextPage = () => {
 export default Home;
 
 function AddWordsPage({ userId }: { userId: string }) {
+  const { locale } = useRouter();
+  if (!locale) {
+    return <Loader />;
+  }
+
   return (
     <>
       <main className="min-h-screen">
         <div className="top-0 flex h-20 w-full flex-row justify-between p-4 md:h-24 md:px-8 lg:h-28 lg:px-12">
-          <LanguageSelectionButton url="/add" />
+          <LanguageSelectionButton url="/add" locale={locale} />
           <BackButton />
         </div>
         <div className="flex flex-col items-center justify-start gap-4 pt-4 lg:gap-16 lg:pt-8">

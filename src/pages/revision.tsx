@@ -33,6 +33,7 @@ function RevisionPage({ userId }: { userId: string }) {
     })[]
   >();
   const t = useTranslations();
+  const { locale } = useRouter();
   const [wordIndex, setWordIndex] = useState(0);
   const [solutionVisible, setSolutionVisible] = useState(false);
   const [finished, setFinished] = useState(false);
@@ -49,7 +50,7 @@ function RevisionPage({ userId }: { userId: string }) {
         // refetchInterval: false,
       }
     );
-  if (isLoading) {
+  if (isLoading || !locale) {
     return <Loader />;
   }
   if (!practices || !revision) {
@@ -131,7 +132,7 @@ function RevisionPage({ userId }: { userId: string }) {
         {!finished && (
           <>
             <div className="flex w-full items-center justify-between py-4 px-4 pt-8 lg:px-24 lg:pt-24">
-              <LanguageSelectionButton url="/revision" />
+              <LanguageSelectionButton url="/revision" locale={locale} />
               <RemainingWordsDisplay
                 length={revision.length}
                 index={wordIndex + 1}

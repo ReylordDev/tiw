@@ -24,12 +24,17 @@ export default Home;
 
 function ProgressPage({ userId }: { userId: string }) {
   const t = useTranslations();
+  const { locale } = useRouter();
+  if (!locale) {
+    return <Loader />;
+  }
+
   return (
     <>
       <MyHead />
       <main className="flex min-h-screen flex-col justify-between ">
         <div className="flex items-center justify-between  py-4 px-4 lg:px-24">
-          <LanguageSelectionButton url="/progress" />
+          <LanguageSelectionButton url="/progress" locale={locale} />
           <BackButton />
         </div>
         <div className="mx-16 my-4 rounded-2xl border-2 px-4 py-4 text-center text-4xl md:mx-32 lg:mx-96 lg:text-8xl">

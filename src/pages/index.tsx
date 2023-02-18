@@ -7,6 +7,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import MyHead from "./components/myHead";
 import LanguageSelectionButton from "./components/LanguageSelectionButton";
+import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession();
@@ -23,12 +24,16 @@ const Home: NextPage = () => {
 export default Home;
 
 export function NotLoggedInPage() {
+  const { locale } = useRouter();
+  if (!locale) {
+    return <Loader />;
+  }
   return (
     <>
       <MyHead />
       <main className="flex min-h-screen flex-col items-center justify-between">
         <div className="flex w-full justify-between py-4 px-4 pt-8 lg:px-24">
-          <LanguageSelectionButton url="/" />
+          <LanguageSelectionButton url="/" locale={locale} />
         </div>
         <TitleHeader />
         <div className="my-4"></div>
@@ -74,13 +79,18 @@ export function Loader() {
 
 function MenuPageLoggedIn({ userId }: { userId: string }) {
   const [modalOpen, setModalOpen] = useState(false);
+  const { locale } = useRouter();
+  if (!locale) {
+    return <Loader />;
+  }
+
   return (
     <>
       <MyHead />
       <main className="flex min-h-screen flex-col items-center justify-between">
         {modalOpen && <AddWordsModal setModal={setModalOpen} userId={userId} />}
         <div className="flex w-full justify-between py-4 px-4 pt-8   lg:px-24">
-          <LanguageSelectionButton url="/" />
+          <LanguageSelectionButton url="/" locale={locale} />
           <SignOutButton />
         </div>
         <div className="flex flex-col items-center justify-center gap-8">
