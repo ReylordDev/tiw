@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
-import { Loader } from "..";
-import { api } from "../../utils/api";
+import { Loader } from "../pages";
+import { api } from "../utils/api";
 
 export default function AddWordsModal(props: {
   setModal: (open: boolean) => void;

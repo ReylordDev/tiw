@@ -2,11 +2,11 @@ import type { GetStaticPropsContext, NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import AddWordsModal from "./components/AddWordsModal";
+import AddWordsModal from "../components/AddWordsModal";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import MyHead from "./components/myHead";
-import LanguageSelectionButton from "./components/LanguageSelectionButton";
+import MyHead from "../components/myHead";
+import LanguageSelectionButton from "../components/LanguageSelectionButton";
 import { useRouter } from "next/router";
 
 const Home: NextPage = () => {

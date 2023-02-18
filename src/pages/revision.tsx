@@ -9,8 +9,8 @@ import { useState } from "react";
 import { Loader, NotLoggedInPage } from ".";
 import { completePractice } from "../server/revisionCalculations";
 import { api } from "../utils/api";
-import LanguageSelectionButton from "./components/LanguageSelectionButton";
-import MyHead from "./components/myHead";
+import LanguageSelectionButton from "../components/LanguageSelectionButton";
+import MyHead from "../components/myHead";
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession();

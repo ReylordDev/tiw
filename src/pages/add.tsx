@@ -8,7 +8,7 @@ import { useState } from "react";
 import { Loader, NotLoggedInPage } from ".";
 import { api } from "../utils/api";
 import { useRouter } from "next/router";
-import LanguageSelectionButton from "./components/LanguageSelectionButton";
+import LanguageSelectionButton from "../components/LanguageSelectionButton";
 import { BackButton } from "./progress";
 
 const Home: NextPage = () => {
