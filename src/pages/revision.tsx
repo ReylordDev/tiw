@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Loader, NotLoggedInPage } from ".";
 import { completePractice } from "../server/revisionCalculations";
 import { api } from "../utils/api";
@@ -204,6 +204,25 @@ function ShowSolutionToggle({
   handleSolutionToggle: () => void;
 }) {
   const t = useTranslations();
+
+  const handleKeyPress = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === " ") {
+        handleSolutionToggle();
+      }
+    },
+    [handleSolutionToggle]
+  );
+
+  useEffect(() => {
+    // attach the event listener
+    document.addEventListener("keydown", handleKeyPress);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [handleKeyPress]);
+
   return (
     <button
       className="lg:border-6 rounded-3xl border-4 px-6 py-4 text-3xl lg:px-14 lg:py-8 lg:text-4xl"
@@ -233,6 +252,25 @@ function CorrectButton({
   handleSubmit: (correct: boolean) => void;
 }) {
   const t = useTranslations();
+
+  const handleKeyPress = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === "f") {
+        handleSubmit(true);
+      }
+    },
+    [handleSubmit]
+  );
+
+  useEffect(() => {
+    // attach the event listener
+    document.addEventListener("keydown", handleKeyPress);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [handleKeyPress]);
+
   return (
     <button
       className="rounded-2xl border-2 bg-green-900 px-7 py-2 text-2xl md:mx-16 md:border-4 lg:py-8 lg:px-12 lg:text-4xl"
@@ -249,6 +287,25 @@ function IncorrectButton({
   handleSubmit: (correct: boolean) => void;
 }) {
   const t = useTranslations();
+
+  const handleKeyPress = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === "j") {
+        handleSubmit(true);
+      }
+    },
+    [handleSubmit]
+  );
+
+  useEffect(() => {
+    // attach the event listener
+    document.addEventListener("keydown", handleKeyPress);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [handleKeyPress]);
+
   return (
     <button
       className="rounded-2xl border-2 bg-red-900 px-7 py-2 text-2xl md:mx-16 md:border-4 md:text-3xl lg:py-8 lg:px-12 lg:text-4xl"
