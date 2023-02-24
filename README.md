@@ -1,32 +1,60 @@
-# Under Construction
+# 🚧 Under Construction 🚧
+
+
+# 🇮🇹 tiw
+
+tiw (Top Italian Words) is a web app that helps you learn the most common Italian words.
+
+## Core Principles:
+
+## ⚡ **Speed** ⚡
+
+  * It is very important to me that the revision process has as little friction as possible and that the user can do their daily practice in a very short amount of time.
+
+
+## 🗽 **Freedom** 🗽
+
+  * The user can decide themselves if they got the word right or wrong. 
+
+  * There is no comparison with other users, no ranking, no leaderboards.
+
+  * Getting the word right or wrong is not a matter of pride, it is a matter of learning. It only adapts the learning process to the user's needs.
+
+  * Therefore the user is incentivized to be honest with themselves about their progress.
+
+---
+## Word List:
+
+The full word list is available in the [words](words/words.csv) folder.
+
+It will also be added as a separate page to the website.
 
 ---
 
-# Create T3 App
+## Algorithm:
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+The spaced repetition algorithm is currently based on a very simple algorithm that I came up with myself.
 
-## What's next? How do I make an app with this?
+This function calculates the number of days from the last review to the next review as follows:
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+  * $D(\text{Counter}) = \text{round}(0.44914437 \cdot 2.05504173 ^{Counter})$
+  * $D(1) = 1$
+  * $D(2) = 2$
+  * $D(3) = 4$
+  * $D(4) = 8$
+  * $D(5) = 16$
+  * $D(6) = 34$
+  * $D(7) = 70$
+  * $D(8) = 143$
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+I plan on implementing a more sophisticated algorithm, like [SM-2](https://en.wikipedia.org/wiki/SuperMemo),  in the future.
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+---
+## Contributing:
 
-## Learn More
+  This is my first web app and I am still learning. If you have any suggestions or improvements, please let me know.
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+  A full guide on how to fork and contribute to this project will be added soon.
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+---
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
