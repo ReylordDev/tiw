@@ -21,10 +21,7 @@ export function completePractice(correct: boolean, practice: Practice) {
     newCounter = practice.counter > 0 ? practice.counter - 1 : 0;
   }
 
-  const nextPracticeDate = calculateNextRevisionDate(
-    practice.lastPractice,
-    newCounter
-  );
+  const nextPracticeDate = calculateNextRevisionDate(new Date(), newCounter);
 
   return {
     newCounter,
