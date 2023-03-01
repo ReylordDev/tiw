@@ -1,4 +1,4 @@
-import type { Practice, Word } from "@prisma/client";
+import type { Word } from "@prisma/client";
 import type { GetStaticPropsContext } from "next";
 import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
@@ -8,8 +8,10 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { Loader, NotLoggedInPage } from ".";
 import { completePractice } from "../server/revisionCalculations";
-import { api, RouterOutputs } from "../utils/api";
+import type { RouterOutputs } from "../utils/api";
+import { api } from "../utils/api";
 import LanguageSelectionButton from "../components/LanguageSelectionButton";
+import shuffle from "@/utils/shuffle";
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession();
@@ -42,24 +44,19 @@ function RevisionPage({ userId }: { userId: string }) {
 
   const { mutate: updatePractice } = api.practice.updatePractice.useMutation();
 
-  const { data: practices, isLoading } =
-    api.practice.getDuePracticesByUserId.useQuery(
-      { userId: userId },
-      {
-        onSuccess: (data) => {
-          setRevision(data);
-        },
-        refetchOnWindowFocus: false,
-        // refetchOnReconnect: false,
-        // refetchInterval: false,
-      }
-    );
+  const { isLoading } = api.practice.getDuePracticesByUserId.useQuery(
+    { userId: userId },
+    {
+      onSuccess: (data) => {
+        setRevision(shuffle(data));
+      },
+      refetchOnWindowFocus: false,
+      // refetchOnReconnect: false,
+      // refetchInterval: false,
+    }
+  );
 
-  if (isLoading || !locale) {
-    return <Loader />;
-  }
-  if (!practices || !revision) {
-    console.log(practices);
+  if (isLoading || !locale || !revision) {
     return <Loader />;
   }
   if (revision.length === 0 && !finished) {
