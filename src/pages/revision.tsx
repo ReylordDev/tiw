@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { Loader, NotLoggedInPage } from ".";
 import { completePractice } from "../server/revisionCalculations";
-import { api } from "../utils/api";
+import { api, RouterOutputs } from "../utils/api";
 import LanguageSelectionButton from "../components/LanguageSelectionButton";
 
 const Home: NextPage = () => {
@@ -25,18 +25,23 @@ const Home: NextPage = () => {
 
 export default Home;
 
+type Revision = RouterOutputs["practice"]["getDuePracticesByUserId"];
+
 function RevisionPage({ userId }: { userId: string }) {
-  const [revision, setRevision] = useState<
-    (Practice & {
-      word: Word;
-    })[]
-  >();
   const t = useTranslations();
+
   const { locale } = useRouter();
+
+  const [revision, setRevision] = useState<Revision>();
+
   const [wordIndex, setWordIndex] = useState(0);
+
   const [solutionVisible, setSolutionVisible] = useState(false);
+
   const [finished, setFinished] = useState(false);
+
   const { mutate: updatePractice } = api.practice.updatePractice.useMutation();
+
   const { data: practices, isLoading } =
     api.practice.getDuePracticesByUserId.useQuery(
       { userId: userId },
@@ -49,6 +54,7 @@ function RevisionPage({ userId }: { userId: string }) {
         // refetchInterval: false,
       }
     );
+
   if (isLoading || !locale) {
     return <Loader />;
   }
