@@ -6,6 +6,7 @@ import type { AbstractIntlMessages } from "next-intl";
 import { NextIntlProvider } from "next-intl";
 
 import "../styles/globals.css";
+import Head from "next/head";
 
 const MyApp: AppType<{
   session: Session | null;
@@ -15,6 +16,14 @@ const MyApp: AppType<{
   return (
     <NextIntlProvider messages={pageProps.messages}>
       <SessionProvider session={pageProps.session}>
+        <Head>
+          <title>Top Italian Words</title>
+          <meta
+            name="description"
+            content="Learn the 1000 most common italian words with a spaced repetition algorithm."
+          />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
         <Component {...pageProps} />
       </SessionProvider>
     </NextIntlProvider>

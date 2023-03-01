@@ -10,7 +10,6 @@ import { Loader, NotLoggedInPage } from ".";
 import { completePractice } from "../server/revisionCalculations";
 import { api } from "../utils/api";
 import LanguageSelectionButton from "../components/LanguageSelectionButton";
-import MyHead from "../components/myHead";
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession();
@@ -95,7 +94,6 @@ function RevisionPage({ userId }: { userId: string }) {
 
   return (
     <>
-      <MyHead />
       <main className="flex min-h-screen flex-col items-center justify-between">
         {finished && (
           <>

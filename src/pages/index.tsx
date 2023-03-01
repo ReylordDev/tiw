@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import MyHead from "../components/myHead";
 import LanguageSelectionButton from "../components/LanguageSelectionButton";
 import { useRouter } from "next/router";
 
@@ -27,7 +26,6 @@ export function NotLoggedInPage() {
   }
   return (
     <>
-      <MyHead />
       <main className="flex min-h-screen flex-col items-center justify-between">
         <div className="flex w-full justify-between py-4 px-4 pt-8 lg:px-24">
           <LanguageSelectionButton url="/" locale={locale} />
@@ -82,7 +80,6 @@ function MenuPageLoggedIn() {
 
   return (
     <>
-      <MyHead />
       <main className="flex min-h-screen flex-col items-center justify-between">
         <div className="flex w-full justify-between py-4 px-4 pt-8   lg:px-24">
           <LanguageSelectionButton url="/" locale={locale} />

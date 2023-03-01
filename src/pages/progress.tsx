@@ -2,7 +2,6 @@ import { useSession } from "next-auth/react";
 import type { GetStaticPropsContext, NextPage } from "next/types";
 import { api } from "../utils/api";
 import Link from "next/link";
-import MyHead from "../components/myHead";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
 import { Loader, NotLoggedInPage } from ".";
@@ -31,7 +30,6 @@ function ProgressPage({ userId }: { userId: string }) {
 
   return (
     <>
-      <MyHead />
       <main className="flex min-h-screen flex-col justify-between ">
         <div className="flex items-center justify-between  py-4 px-4 lg:px-24">
           <LanguageSelectionButton url="/progress" locale={locale} />
