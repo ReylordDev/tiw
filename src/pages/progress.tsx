@@ -17,13 +17,13 @@ const Home: NextPage = () => {
   if (!session || !session.user || !session.user.id) {
     return <NotLoggedInPage />;
   } else {
-    return <ProgressPage userId={session.user.id} />;
+    return <ProgressPage />;
   }
 };
 
 export default Home;
 
-function ProgressPage({ userId }: { userId: string }) {
+function ProgressPage() {
   const t = useTranslations();
   const { locale } = useRouter();
   if (!locale) {
@@ -43,7 +43,7 @@ function ProgressPage({ userId }: { userId: string }) {
           </div>
         </div>
         <div className="justify-center overflow-scroll text-center text-xs md:p-8 md:text-lg lg:p-16 lg:text-xl">
-          {ProgressTable(userId)}
+          <ProgressTable />
         </div>
       </main>
     </>
@@ -64,9 +64,10 @@ export function BackButton() {
 
 type Practices = RouterOutputs["practice"]["getPracticesWithWordsByUserId"];
 
-function ProgressTable(userId: string) {
+function ProgressTable() {
+  const { data: session } = useSession();
   const { data } = api.practice.getPracticesWithWordsByUserId.useQuery({
-    userId: userId,
+    userId: session?.user?.id || "",
   });
   if (!data) {
     return <Loader />;
