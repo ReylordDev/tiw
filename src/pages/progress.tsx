@@ -1,5 +1,6 @@
 import { useSession } from "next-auth/react";
 import type { GetStaticPropsContext, NextPage } from "next/types";
+import type { RouterOutputs } from "../utils/api";
 import { api } from "../utils/api";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
@@ -35,14 +36,13 @@ function ProgressPage({ userId }: { userId: string }) {
           <LanguageSelectionButton url="/progress" locale={locale} />
           <BackButton />
         </div>
-        <div className="mx-16 my-4 rounded-2xl border-2 px-4 py-4 text-center text-4xl md:mx-32 lg:mx-96 lg:text-8xl">
-          {t("Index.progressButton")}
+        <div className="flex items-center justify-center pb-4 pt-2">
+          <div className="w-min rounded-2xl border-2 px-2 py-1 text-center text-3xl md:border-4 md:px-4 md:py-2 md:text-5xl lg:px-6 lg:py-3 lg:text-6xl">
+            {t("Index.progressButton")}
+          </div>
         </div>
         <div className="justify-center overflow-scroll text-center text-xs md:p-8 md:text-lg lg:p-16 lg:text-xl">
-          <table className="w-full table-auto">
-            <TableHead />
-            <TableBody userId={userId} />
-          </table>
+          {ProgressTable(userId)}
         </div>
       </main>
     </>
@@ -58,6 +58,24 @@ export function BackButton() {
     >
       {t("Revision.back")}
     </Link>
+  );
+}
+
+type Practices = RouterOutputs["practice"]["getPracticesWithWordsByUserId"];
+
+function ProgressTable(userId: string) {
+  const { data } = api.practice.getPracticesWithWordsByUserId.useQuery({
+    userId: userId,
+  });
+  if (!data) {
+    return <Loader />;
+  }
+  const practices = data.sort((a, b) => a.word.rank - b.word.rank);
+  return (
+    <table className="w-full table-auto">
+      <TableHead />
+      <TableBody practices={practices} />
+    </table>
   );
 }
 
@@ -91,15 +109,8 @@ function TableHead() {
   );
 }
 
-function TableBody({ userId }: { userId: string }) {
+function TableBody({ practices }: { practices: Practices }) {
   const { locale } = useRouter();
-  const { data } = api.practice.getPracticesWithWordsByUserId.useQuery({
-    userId: userId,
-  });
-  if (!data) {
-    return <Loader />;
-  }
-  const practices = data.sort((a, b) => a.word.rank - b.word.rank);
   return (
     <tbody>
       {practices.map((practice) => {
