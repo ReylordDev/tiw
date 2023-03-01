@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
 import { Loader, NotLoggedInPage } from ".";
 import LanguageSelectionButton from "../components/LanguageSelectionButton";
+import { useState } from "react";
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession();
@@ -74,7 +75,7 @@ function ProgressTable(userId: string) {
   return (
     <table className="w-full table-auto">
       <TableHead />
-      <TableBody practices={practices} />
+      <TableBody practicesProp={practices} />
     </table>
   );
 }
@@ -109,8 +110,10 @@ function TableHead() {
   );
 }
 
-function TableBody({ practices }: { practices: Practices }) {
+function TableBody({ practicesProp }: { practicesProp: Practices }) {
   const { locale } = useRouter();
+  const [practices] = useState<Practices>(practicesProp);
+
   return (
     <tbody>
       {practices.map((practice) => {
