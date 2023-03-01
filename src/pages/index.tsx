@@ -129,7 +129,7 @@ function PracticeButton() {
   const [revisionCount, setRevisionCount] = useState(0);
   api.practice.getDuePracticesCountWithWordsByUserId.useQuery(
     {
-      userId: data?.user?.id ?? "undefined",
+      userId: data?.user?.id ?? "",
     },
     {
       enabled: data?.user?.id !== undefined,
