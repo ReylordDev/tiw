@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { Loader, NotLoggedInPage } from ".";
-import { completePractice } from "../server/revisionCalculations";
+import { completePractice } from "../utils/revisionCalculations";
 import type { RouterOutputs } from "../utils/api";
 import { api } from "../utils/api";
 import LanguageSelectionButton from "../components/LanguageSelectionButton";
