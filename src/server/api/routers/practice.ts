@@ -106,4 +106,18 @@ export const practiceRouter = createTRPCRouter({
       });
       return result;
     }),
+
+  getDuePracticesCountWithWordsByUserId: protectedProcedure
+    .input(z.object({ userId: z.string() }))
+    .query(({ ctx, input }) => {
+      const result = ctx.prisma.practice.count({
+        where: {
+          userId: input.userId,
+          nextPractice: {
+            lte: new Date(),
+          },
+        },
+      });
+      return result;
+    }),
 });

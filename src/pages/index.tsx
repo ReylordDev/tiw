@@ -5,6 +5,8 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import LanguageSelectionButton from "../components/LanguageSelectionButton";
 import { useRouter } from "next/router";
+import { api } from "@/utils/api";
+import { useState } from "react";
 
 const Home: NextPage = () => {
   const { status } = useSession();
@@ -56,7 +58,7 @@ function LogInButton() {
   const t = useTranslations("Index");
   return (
     <button
-      className="lg:border-6 rounded-2xl border-2 px-6 py-4 text-3xl lg:px-14 lg:py-8 lg:text-4xl"
+      className="rounded-2xl border-2 px-6 py-4 text-3xl lg:border-4 lg:px-14 lg:py-8 lg:text-4xl"
       onClick={() => void signIn()}
     >
       {t("logInButton")}
@@ -123,13 +125,26 @@ function TitleHeader() {
 
 function PracticeButton() {
   const t = useTranslations();
+  const { data } = useSession();
+  const [revisionCount, setRevisionCount] = useState(0);
+  api.practice.getDuePracticesCountWithWordsByUserId.useQuery(
+    {
+      userId: data?.user?.id ?? "undefined",
+    },
+    {
+      enabled: data?.user?.id !== undefined,
+      onSuccess(data) {
+        setRevisionCount(data);
+      },
+    }
+  );
   return (
-    <Link
-      className="lg:border-6 rounded-2xl border-2 px-6 py-4 text-3xl lg:px-14 lg:py-8 lg:text-4xl"
-      href={"revision"}
-    >
-      {t("Index.practiceButton")}
-    </Link>
+    <div className="flex flex-row rounded-2xl border-2 px-6 py-4 text-3xl lg:border-4 lg:px-14 lg:py-8 lg:text-4xl">
+      <Link className="" href={"revision"}>
+        {t("Index.practiceButton")}
+        {revisionCount > 0 ? " (" + revisionCount.toString() + ")" : ""}
+      </Link>
+    </div>
   );
 }
 
@@ -138,7 +153,7 @@ function AddWordsButton() {
   return (
     <Link
       href={"/add"}
-      className="lg:border-6 mx-16 rounded-2xl border-2 px-6 py-4 text-3xl lg:w-auto lg:px-14 lg:py-8 lg:text-4xl"
+      className="mx-16 rounded-2xl border-2 px-6 py-4 text-3xl lg:w-auto lg:border-4 lg:px-14 lg:py-8 lg:text-4xl"
     >
       {t("Index.addWordsButton")}
     </Link>
@@ -149,7 +164,7 @@ function ProgressButton() {
   const t = useTranslations();
   return (
     <Link
-      className="lg:border-6 rounded-2xl border-2 px-6 py-4 text-3xl lg:px-14 lg:py-8 lg:text-4xl"
+      className="rounded-2xl border-2 px-6 py-4 text-3xl lg:border-4 lg:px-14 lg:py-8 lg:text-4xl"
       href={"progress"}
     >
       {t("Index.progressButton")}
