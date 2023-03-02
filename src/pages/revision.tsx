@@ -7,48 +7,41 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { Loader, NotLoggedInPage } from ".";
-import { completePractice } from "../utils/revisionCalculations";
 import type { RouterOutputs } from "../utils/api";
 import { api } from "../utils/api";
 import LanguageSelectionButton from "../components/LanguageSelectionButton";
-import shuffle from "@/utils/shuffle";
 
 const Home: NextPage = () => {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   if (status === "loading") {
     return <Loader />;
   }
-  if (!session || !session.user || !session.user.id) {
+  if (status === "unauthenticated") {
     return <NotLoggedInPage />;
   } else {
-    return <RevisionPage userId={session.user.id} />;
+    return <RevisionPage />;
   }
 };
 
 export default Home;
 
-type Revision = RouterOutputs["practice"]["getDuePracticesByUserId"];
+type Revision = RouterOutputs["practice"]["getDuePracticesByContextShuffled"];
 
-function RevisionPage({ userId }: { userId: string }) {
+function RevisionPage() {
   const t = useTranslations();
-
   const { locale } = useRouter();
 
   const [revision, setRevision] = useState<Revision>();
-
   const [wordIndex, setWordIndex] = useState(0);
-
   const [solutionVisible, setSolutionVisible] = useState(false);
-
   const [finished, setFinished] = useState(false);
 
-  const { mutate: updatePractice } = api.practice.updatePractice.useMutation();
-
-  const { isLoading } = api.practice.getDuePracticesByUserId.useQuery(
-    { userId: userId },
+  const { mutate: submitPractice } = api.practice.submitPractice.useMutation();
+  const { isLoading } = api.practice.getDuePracticesByContextShuffled.useQuery(
+    undefined, // no data
     {
-      onSuccess: (data) => {
-        setRevision(shuffle(data));
+      onSuccess: (practices) => {
+        setRevision(practices);
       },
       refetchOnWindowFocus: false,
       // refetchOnReconnect: false,
@@ -63,11 +56,6 @@ function RevisionPage({ userId }: { userId: string }) {
     setFinished(true);
   }
 
-  function handleSolutionToggle() {
-    console.log("Solution", solutionVisible ? "hidden" : "visible");
-    setSolutionVisible(!solutionVisible);
-  }
-
   function handleSubmit(correct: boolean) {
     if (!revision || revision.length === 0) {
       console.log("No revision");
@@ -78,15 +66,13 @@ function RevisionPage({ userId }: { userId: string }) {
       console.log("No practice");
       return;
     }
-    const { newCounter, nextPracticeDate } = completePractice(
-      correct,
-      practice
-    );
-    updatePractice({
+
+    submitPractice({
       practiceId: practice.id,
-      nextPractice: nextPracticeDate,
-      newCounter,
+      correct,
+      oldCounter: practice.counter,
     });
+
     if (wordIndex < revision.length - 1) {
       setSolutionVisible(false);
       setWordIndex(wordIndex + 1);
@@ -151,7 +137,7 @@ function RevisionPage({ userId }: { userId: string }) {
             </div>
             <ShowSolutionToggle
               solutionVisible={solutionVisible}
-              handleSolutionToggle={handleSolutionToggle}
+              handleSolutionToggle={() => setSolutionVisible(!solutionVisible)}
             />
             <ProgressLink />
           </>
