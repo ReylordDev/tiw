@@ -10,15 +10,14 @@ import LanguageSelectionButton from "../components/LanguageSelectionButton";
 import { useState } from "react";
 
 const Home: NextPage = () => {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   if (status === "loading") {
     return <Loader />;
   }
-  if (!session || !session.user || !session.user.id) {
+  if (status === "unauthenticated") {
     return <NotLoggedInPage />;
-  } else {
-    return <ProgressPage />;
   }
+  return <ProgressPage />;
 };
 
 export default Home;

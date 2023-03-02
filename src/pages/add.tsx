@@ -12,20 +12,20 @@ import LanguageSelectionButton from "../components/LanguageSelectionButton";
 import { BackButton } from "./progress";
 
 const Home: NextPage = () => {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   if (status === "loading") {
     return <Loader />;
   }
-  if (!session || !session.user || !session.user.id) {
+  if (status === "unauthenticated") {
     return <NotLoggedInPage />;
   } else {
-    return <AddWordsPage userId={session.user.id} />;
+    return <AddWordsPage />;
   }
 };
 
 export default Home;
 
-function AddWordsPage({ userId }: { userId: string }) {
+function AddWordsPage() {
   const { locale } = useRouter();
   if (!locale) {
     return <Loader />;
@@ -40,7 +40,7 @@ function AddWordsPage({ userId }: { userId: string }) {
         </div>
         <div className="flex flex-col items-center justify-start gap-4 pt-4 lg:gap-16 lg:pt-8">
           <TitleHeader />
-          <AddWordsForm userId={userId} />
+          <AddWordsForm />
         </div>
       </main>
     </>
@@ -58,9 +58,10 @@ function TitleHeader() {
   );
 }
 
-function AddWordsForm({ userId }: { userId: string }) {
+function AddWordsForm() {
+  const { data: session } = useSession();
   const { data: user, isLoading } = api.user.getCurrentRank.useQuery({
-    userId: userId,
+    userId: session?.user?.id ?? "",
   });
   const [count, setCount] = useState<string>("10");
   const [loading, setLoading] = useState(false);
@@ -84,7 +85,7 @@ function AddWordsForm({ userId }: { userId: string }) {
         <div className="flex justify-around gap-8 py-4 md:gap-12 lg:gap-32">
           <CancelButton />
           <AddButton
-            userId={userId}
+            userId={session?.user?.id ?? ""}
             count={count}
             rank={user.currentRankProgress}
             setLoading={setLoading}
