@@ -60,14 +60,39 @@ function TitleHeader() {
 
 function AddWordsForm() {
   const { data: session } = useSession();
-  const { data: user, isLoading } = api.user.getCurrentRank.useQuery({
-    userId: session?.user?.id ?? "",
-  });
+  const router = useRouter();
+
+  const { data: currentRank, isLoading } = api.user.getCurrentRank.useQuery();
+  const { mutate: createPracticesFromRank } =
+    api.practice.createPracticesFromRank.useMutation();
+
   const [count, setCount] = useState<string>("10");
   const [loading, setLoading] = useState(false);
-  if (isLoading || !user) {
+
+  if (isLoading || !currentRank) {
     return <Loader />;
   }
+
+  const createPractices = () => {
+    setLoading(true);
+    createPracticesFromRank(
+      {
+        userId: session?.user?.id ?? "",
+        count: parseInt(count),
+        rank: currentRank,
+      },
+      {
+        onSuccess: () => {
+          setLoading(false);
+          router.push("/").catch((e) => console.error(e));
+        },
+        onError(error, variables, context) {
+          setLoading(false);
+          console.error(error, variables, context);
+        },
+      }
+    );
+  };
   return (
     <form className="flex w-3/4 flex-col items-center justify-center gap-8 p-4 lg:gap-12">
       {loading && (
@@ -84,12 +109,7 @@ function AddWordsForm() {
         <WordCountInput count={count} setCount={setCount} />
         <div className="flex justify-around gap-8 py-4 md:gap-12 lg:gap-32">
           <CancelButton />
-          <AddButton
-            userId={session?.user?.id ?? ""}
-            count={count}
-            rank={user.currentRankProgress}
-            setLoading={setLoading}
-          />
+          <AddButton createPractices={createPractices} />
         </div>
       </>
     </form>
@@ -109,21 +129,8 @@ function CancelButton() {
   );
 }
 
-function AddButton({
-  userId,
-  count,
-  rank,
-  setLoading,
-}: {
-  userId: string;
-  count: string;
-  rank: number;
-  setLoading: (value: boolean) => void;
-}) {
+function AddButton({ createPractices }: { createPractices: () => void }) {
   const t = useTranslations();
-  const router = useRouter();
-  const { mutate: createPracticesFromRank } =
-    api.practice.createPracticesFromRank.useMutation();
 
   return (
     <button
@@ -131,24 +138,7 @@ function AddButton({
       md:w-48 md:rounded-xl md:py-4 md:text-3xl lg:w-64 lg:rounded-2xl lg:py-6 lg:text-4xl"
       onClick={(e) => {
         e.preventDefault();
-        setLoading(true);
-        createPracticesFromRank(
-          {
-            userId: userId,
-            count: parseInt(count),
-            rank: rank,
-          },
-          {
-            onSuccess: () => {
-              setLoading(false);
-              router.push("/").catch((e) => console.error(e));
-            },
-            onError(error, variables, context) {
-              setLoading(false);
-              console.error(error, variables, context);
-            },
-          }
-        );
+        createPractices();
       }}
     >
       {t("Add.addButton")}

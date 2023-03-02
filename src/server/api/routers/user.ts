@@ -14,6 +14,7 @@ export const userRouter = createTRPCRouter({
       });
       return User;
     }),
+
   updateCurrentRank: protectedProcedure
     .input(
       z.object({
@@ -29,13 +30,13 @@ export const userRouter = createTRPCRouter({
       console.log(result);
       return result;
     }),
-  getCurrentRank: protectedProcedure
-    .input(z.object({ userId: z.string() }))
-    .query(({ ctx, input }) => {
-      const result = ctx.prisma.user.findUnique({
-        where: { id: input.userId },
-        select: { currentRankProgress: true },
-      });
-      return result;
-    }),
+
+  getCurrentRank: protectedProcedure.query(async ({ ctx }) => {
+    const user = await ctx.prisma.user.findUnique({
+      where: { id: ctx.session.user.id },
+      select: { currentRankProgress: true },
+    });
+
+    return user?.currentRankProgress;
+  }),
 });
