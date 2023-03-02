@@ -26,6 +26,8 @@ const Home: NextPage = () => {
 export default Home;
 
 type Revision = RouterOutputs["practice"]["getDuePracticesByContextShuffled"];
+type PracticeWithWord =
+  RouterOutputs["practice"]["getDuePracticesByContextShuffled"][0];
 
 function RevisionPage() {
   const t = useTranslations();
@@ -56,24 +58,29 @@ function RevisionPage() {
     setFinished(true);
   }
 
-  function handleSubmit(correct: boolean) {
-    if (!revision || revision.length === 0) {
-      console.log("No revision");
-      return;
-    }
-    const practice = revision[wordIndex];
-    if (!practice) {
-      console.log("No practice");
-      return;
-    }
+  const currentPractice = revision[wordIndex];
+  const currentWord = revision[wordIndex]?.word;
 
+  if (!currentPractice || !currentWord) {
+    return <Loader />;
+  }
+
+  const onSubmit = (correct: boolean) => {
+    handleSubmit(correct, currentPractice, revision.length);
+  };
+
+  function handleSubmit(
+    correct: boolean,
+    practice: PracticeWithWord,
+    revisionLength: number
+  ) {
     submitPractice({
       practiceId: practice.id,
       correct,
       oldCounter: practice.counter,
     });
 
-    if (wordIndex < revision.length - 1) {
+    if (wordIndex < revisionLength - 1) {
       setSolutionVisible(false);
       setWordIndex(wordIndex + 1);
     } else {
@@ -126,14 +133,12 @@ function RevisionPage() {
               />
             </div>
             <CurrentWordDisplay
-              word={revision[wordIndex]?.word}
+              word={currentWord}
               solutionVisible={solutionVisible}
             />
             <div className="flex w-full flex-col justify-around gap-8 py-4 px-4 pt-8 lg:flex-row lg:px-24 lg:pt-24">
-              {solutionVisible && <CorrectButton handleSubmit={handleSubmit} />}
-              {solutionVisible && (
-                <IncorrectButton handleSubmit={handleSubmit} />
-              )}
+              {solutionVisible && <CorrectButton onSubmit={onSubmit} />}
+              {solutionVisible && <IncorrectButton onSubmit={onSubmit} />}
             </div>
             <ShowSolutionToggle
               solutionVisible={solutionVisible}
@@ -165,15 +170,10 @@ function CurrentWordDisplay({
   word,
   solutionVisible,
 }: {
-  word: Word | undefined;
+  word: Word;
   solutionVisible: boolean;
 }) {
   const { locale } = useRouter();
-  if (!word) {
-    return (
-      <div className="lg:border-7 rounded-3xl border-4 px-6 py-4 text-5xl lg:rounded-[36px] lg:px-20 lg:py-8 lg:text-7xl"></div>
-    );
-  }
   return (
     <div className="lg:border-7 rounded-3xl border-4 px-6 py-4 text-5xl lg:rounded-[36px] lg:px-20 lg:py-8 lg:text-7xl">
       {solutionVisible &&
@@ -234,19 +234,19 @@ function ProgressLink() {
 }
 
 function CorrectButton({
-  handleSubmit,
+  onSubmit: onSubmit,
 }: {
-  handleSubmit: (correct: boolean) => void;
+  onSubmit: (correct: boolean) => void;
 }) {
   const t = useTranslations();
 
   const handleKeyPress = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === "f") {
-        handleSubmit(true);
+        onSubmit(true);
       }
     },
-    [handleSubmit]
+    [onSubmit]
   );
 
   useEffect(() => {
@@ -261,7 +261,7 @@ function CorrectButton({
   return (
     <button
       className="rounded-2xl border-2 bg-green-900 px-7 py-2 text-2xl md:mx-16 md:border-4 lg:py-8 lg:px-12 lg:text-4xl"
-      onClick={() => handleSubmit(true)}
+      onClick={() => onSubmit(true)}
     >
       {t("Revision.correct")}
     </button>
@@ -269,19 +269,19 @@ function CorrectButton({
 }
 
 function IncorrectButton({
-  handleSubmit,
+  onSubmit: onSubmit,
 }: {
-  handleSubmit: (correct: boolean) => void;
+  onSubmit: (correct: boolean) => void;
 }) {
   const t = useTranslations();
 
   const handleKeyPress = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === "j") {
-        handleSubmit(true);
+        onSubmit(false);
       }
     },
-    [handleSubmit]
+    [onSubmit]
   );
 
   useEffect(() => {
@@ -296,14 +296,14 @@ function IncorrectButton({
   return (
     <button
       className="rounded-2xl border-2 bg-red-900 px-7 py-2 text-2xl md:mx-16 md:border-4 md:text-3xl lg:py-8 lg:px-12 lg:text-4xl"
-      onClick={() => handleSubmit(false)}
+      onClick={() => onSubmit(false)}
     >
       {t("Revision.incorrect")}
     </button>
   );
 }
 
-// consider server side rendering this file
+// static rendering only to get the translations, rest is client side
 export async function getStaticProps(ctx: GetStaticPropsContext) {
   const locale = ctx.locale || "en";
   return {
