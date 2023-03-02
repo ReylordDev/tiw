@@ -59,7 +59,6 @@ function TitleHeader() {
 }
 
 function AddWordsForm() {
-  const { data: session } = useSession();
   const router = useRouter();
 
   const { data: currentRank, isLoading } = api.user.getCurrentRank.useQuery();
@@ -69,7 +68,7 @@ function AddWordsForm() {
   const [count, setCount] = useState<string>("10");
   const [loading, setLoading] = useState(false);
 
-  if (isLoading || !currentRank) {
+  if (isLoading || currentRank === undefined) {
     return <Loader />;
   }
 
@@ -77,7 +76,6 @@ function AddWordsForm() {
     setLoading(true);
     createPracticesFromRank(
       {
-        userId: session?.user?.id ?? "",
         count: parseInt(count),
         rank: currentRank,
       },

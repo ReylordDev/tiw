@@ -75,7 +75,6 @@ export const practiceRouter = createTRPCRouter({
   createPracticesFromRank: protectedProcedure
     .input(
       z.object({
-        userId: z.string(),
         rank: z.number(),
         count: z.number().min(1).max(1000),
       })
@@ -95,17 +94,19 @@ export const practiceRouter = createTRPCRouter({
           rank: "asc",
         },
       });
+      console.log(wordIds);
       wordIds.map(async (word) => {
-        await ctx.prisma.practice.create({
+        const creation = await ctx.prisma.practice.create({
           data: {
-            userId: input.userId,
+            userId: ctx.session.user.id,
             wordId: word.id,
           },
         });
+        console.log(creation);
       });
-      await ctx.prisma.user.update({
+      return ctx.prisma.user.update({
         where: {
-          id: input.userId,
+          id: ctx.session.user.id,
         },
         data: {
           currentRankProgress: input.rank + input.count,

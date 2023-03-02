@@ -58,6 +58,10 @@ function RevisionPage() {
     setFinished(true);
   }
 
+  if (finished) {
+    return <RevisionDonePage />;
+  }
+
   const currentPractice = revision[wordIndex];
   const currentWord = revision[wordIndex]?.word;
 
@@ -91,62 +95,64 @@ function RevisionPage() {
   return (
     <>
       <main className="flex min-h-screen flex-col items-center justify-between">
-        {finished && (
-          <>
-            <div></div>
-            <div className="rounded-3xl border-b-4 px-6 py-4 text-center text-4xl lg:rounded-[36px] lg:border-4 lg:px-20 lg:py-8 lg:text-7xl">
-              {t("Revision.doneText")}
-            </div>
-            <p className="px-6 py-4 text-center text-2xl lg:px-20 lg:py-8 lg:text-4xl">
-              {t("Revision.comeBackTomorrow1")}
-              <br></br>
-              {t("Revision.comeBackTomorrow2")}
-            </p>
-            <p className="px-6 pt-20 text-center text-xl lg:px-20 lg:py-8 lg:text-3xl">
-              {t("Revision.checkProgress")}
-            </p>
-            <Link
-              href="/progress"
-              className="rounded-3xl border-2 px-4 py-2 text-xl lg:px-6 lg:py-2 lg:text-4xl "
-            >
-              {t("Index.progressButton")}
-            </Link>
-            <p className="px-6 pt-20 text-center text-xl lg:px-20 lg:py-8 lg:text-3xl">
-              {t("Revision.returnToMenu")}
-            </p>
-            <Link
-              href="/"
-              className="rounded-3xl border-2 px-4 py-2 text-xl lg:px-6 lg:py-2 lg:text-4xl "
-            >
-              {t("Revision.back")}
-            </Link>
-            <div></div>
-          </>
-        )}
-        {!finished && (
-          <>
-            <div className="flex w-full items-center justify-between py-4 px-4 pt-8 lg:px-24 lg:pt-24">
-              <LanguageSelectionButton url="/revision" locale={locale} />
-              <RemainingWordsDisplay
-                length={revision.length}
-                index={wordIndex + 1}
-              />
-            </div>
-            <CurrentWordDisplay
-              word={currentWord}
-              solutionVisible={solutionVisible}
-            />
-            <div className="flex w-full flex-col justify-around gap-8 py-4 px-4 pt-8 lg:flex-row lg:px-24 lg:pt-24">
-              {solutionVisible && <CorrectButton onSubmit={onSubmit} />}
-              {solutionVisible && <IncorrectButton onSubmit={onSubmit} />}
-            </div>
-            <ShowSolutionToggle
-              solutionVisible={solutionVisible}
-              handleSolutionToggle={() => setSolutionVisible(!solutionVisible)}
-            />
-            <ProgressLink />
-          </>
-        )}
+        <div className="flex w-full items-center justify-between py-4 px-4 pt-8 lg:px-24 lg:pt-24">
+          <LanguageSelectionButton url="/revision" locale={locale} />
+          <RemainingWordsDisplay
+            length={revision.length}
+            index={wordIndex + 1}
+          />
+        </div>
+        <CurrentWordDisplay
+          word={currentWord}
+          solutionVisible={solutionVisible}
+        />
+        <div className="flex w-full flex-col justify-around gap-8 py-4 px-4 pt-8 lg:flex-row lg:px-24 lg:pt-24">
+          {solutionVisible && <CorrectButton onSubmit={onSubmit} />}
+          {solutionVisible && <IncorrectButton onSubmit={onSubmit} />}
+        </div>
+        <ShowSolutionToggle
+          solutionVisible={solutionVisible}
+          handleSolutionToggle={() => setSolutionVisible(!solutionVisible)}
+        />
+        <ProgressLink />
+      </main>
+    </>
+  );
+}
+
+function RevisionDonePage() {
+  const t = useTranslations();
+  return (
+    <>
+      <main className="flex min-h-screen flex-col items-center justify-between">
+        <div></div>
+        <div className="rounded-3xl border-b-4 px-6 py-4 text-center text-4xl lg:rounded-[36px] lg:border-4 lg:px-20 lg:py-8 lg:text-7xl">
+          {t("Revision.doneText")}
+        </div>
+        <p className="px-6 py-4 text-center text-2xl lg:px-20 lg:py-8 lg:text-4xl">
+          {t("Revision.comeBackTomorrow1")}
+          <br></br>
+          {t("Revision.comeBackTomorrow2")}
+        </p>
+        <p className="px-6 pt-20 text-center text-xl lg:px-20 lg:py-8 lg:text-3xl">
+          {t("Revision.checkProgress")}
+        </p>
+        <Link
+          href="/progress"
+          className="rounded-3xl border-2 px-4 py-2 text-xl lg:px-6 lg:py-2 lg:text-4xl "
+        >
+          {t("Index.progressButton")}
+        </Link>
+        <p className="px-6 pt-20 text-center text-xl lg:px-20 lg:py-8 lg:text-3xl">
+          {t("Revision.returnToMenu")}
+        </p>
+        <Link
+          href="/"
+          className="rounded-3xl border-2 px-4 py-2 text-xl lg:px-6 lg:py-2 lg:text-4xl "
+        >
+          {t("Revision.back")}
+        </Link>
+        <div></div>
       </main>
     </>
   );
