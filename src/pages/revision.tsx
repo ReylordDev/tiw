@@ -30,7 +30,6 @@ type PracticeWithWord =
   RouterOutputs["practice"]["getDuePracticesByContextShuffled"][0];
 
 function RevisionPage() {
-  const t = useTranslations();
   const { locale } = useRouter();
 
   const [revision, setRevision] = useState<Revision>();
