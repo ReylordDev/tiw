@@ -93,19 +93,19 @@ export const practiceRouter = createTRPCRouter({
         },
       });
     }),
-  getPracticesWithWordsByUserId: protectedProcedure
-    .input(z.object({ userId: z.string() }))
-    .query(({ ctx, input }) => {
-      const result = ctx.prisma.practice.findMany({
-        where: {
-          userId: input.userId,
-        },
-        include: {
-          word: true,
-        },
-      });
-      return result;
-    }),
+  getPracticesWithWordsByUserId: protectedProcedure.query(async ({ ctx }) => {
+    const result = await ctx.prisma.practice.findMany({
+      where: {
+        userId: ctx.session.user.id,
+      },
+      include: {
+        word: true,
+      },
+    });
+
+    const sortedResult = result.sort((a, b) => a.word.rank - b.word.rank);
+    return sortedResult;
+  }),
 
   getDuePracticesCountWithWordsFromContext: protectedProcedure.query(
     ({ ctx }) => {

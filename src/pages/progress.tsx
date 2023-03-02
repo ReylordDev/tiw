@@ -64,14 +64,13 @@ export function BackButton() {
 type Practices = RouterOutputs["practice"]["getPracticesWithWordsByUserId"];
 
 function ProgressTable() {
-  const { data: session } = useSession();
-  const { data } = api.practice.getPracticesWithWordsByUserId.useQuery({
-    userId: session?.user?.id || "",
-  });
-  if (!data) {
+  const { data: practices, isLoading } =
+    api.practice.getPracticesWithWordsByUserId.useQuery(
+      undefined // no input
+    );
+  if (!practices || isLoading) {
     return <Loader />;
   }
-  const practices = data.sort((a, b) => a.word.rank - b.word.rank);
   return (
     <table className="w-full table-auto">
       <TableHead />
