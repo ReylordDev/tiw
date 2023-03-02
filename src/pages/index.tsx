@@ -125,14 +125,10 @@ function TitleHeader() {
 
 function PracticeButton() {
   const t = useTranslations();
-  const { data } = useSession();
   const [revisionCount, setRevisionCount] = useState(0);
-  api.practice.getDuePracticesCountWithWordsByUserId.useQuery(
+  api.practice.getDuePracticesCountWithWordsFromContext.useQuery(
+    undefined, // no input
     {
-      userId: data?.user?.id ?? "",
-    },
-    {
-      enabled: data?.user?.id !== undefined,
       onSuccess(data) {
         setRevisionCount(data);
       },
