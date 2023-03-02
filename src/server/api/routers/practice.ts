@@ -80,43 +80,30 @@ export const practiceRouter = createTRPCRouter({
         count: z.number().min(1).max(1000),
       })
     )
-    .mutation(({ ctx, input }) => {
-      ctx.prisma.word
-        .findMany({
-          where: {
-            rank: {
-              gt: input.rank,
-            },
+    .mutation(async ({ ctx, input }) => {
+      const wordIds = await ctx.prisma.word.findMany({
+        where: {
+          rank: {
+            gt: input.rank,
           },
-          take: input.count,
-          select: {
-            id: true,
+        },
+        take: input.count,
+        select: {
+          id: true,
+        },
+        orderBy: {
+          rank: "asc",
+        },
+      });
+      wordIds.map(async (word) => {
+        await ctx.prisma.practice.create({
+          data: {
+            userId: input.userId,
+            wordId: word.id,
           },
-          orderBy: {
-            rank: "asc",
-          },
-        })
-        .then((wordIds) => {
-          wordIds.forEach((word) => {
-            ctx.prisma.practice
-              .create({
-                data: {
-                  userId: input.userId,
-                  wordId: word.id,
-                  lastPractice: new Date(),
-                  nextPractice: new Date(),
-                  counter: 0,
-                },
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          });
-        })
-        .catch((err) => {
-          console.log(err);
         });
-      return ctx.prisma.user.update({
+      });
+      await ctx.prisma.user.update({
         where: {
           id: input.userId,
         },
