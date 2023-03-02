@@ -77,7 +77,7 @@ export const practiceRouter = createTRPCRouter({
       z.object({
         userId: z.string(),
         rank: z.number(),
-        count: z.number(),
+        count: z.number().min(1).max(1000),
       })
     )
     .mutation(({ ctx, input }) => {
