@@ -135,12 +135,13 @@ function PracticeButton() {
     }
   );
   return (
-    <div className="flex flex-row rounded-2xl border-2 px-6 py-4 text-3xl lg:border-4 lg:px-14 lg:py-8 lg:text-4xl">
-      <Link className="" href={"revision"}>
-        {t("Index.practiceButton")}
-        {revisionCount > 0 ? " (" + revisionCount.toString() + ")" : ""}
-      </Link>
-    </div>
+    <Link
+      className="rounded-2xl border-2 px-6 py-4 text-3xl lg:border-4 lg:px-14 lg:py-8 lg:text-4xl"
+      href={"revision"}
+    >
+      {t("Index.practiceButton")}
+      {revisionCount > 0 ? " (" + revisionCount.toString() + ")" : ""}
+    </Link>
   );
 }
 
