@@ -126,7 +126,7 @@ export const practiceRouter = createTRPCRouter({
       });
     }),
 
-  getPracticesWithWordsByUserId: protectedProcedure.query(async ({ ctx }) => {
+  getPracticesWithWordsByContext: protectedProcedure.query(async ({ ctx }) => {
     const result = await ctx.prisma.practice.findMany({
       where: {
         userId: ctx.session.user.id,

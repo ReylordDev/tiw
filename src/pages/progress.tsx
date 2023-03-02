@@ -61,11 +61,11 @@ export function BackButton() {
   );
 }
 
-type Practices = RouterOutputs["practice"]["getPracticesWithWordsByUserId"];
+type Practices = RouterOutputs["practice"]["getPracticesWithWordsByContext"];
 
 function ProgressTable() {
   const { data: practices, isLoading } =
-    api.practice.getPracticesWithWordsByUserId.useQuery(
+    api.practice.getPracticesWithWordsByContext.useQuery(
       undefined // no input
     );
   if (!practices || isLoading) {
