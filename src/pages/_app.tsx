@@ -4,6 +4,7 @@ import { SessionProvider } from "next-auth/react";
 import { api } from "../utils/api";
 import type { AbstractIntlMessages } from "next-intl";
 import { NextIntlProvider } from "next-intl";
+import { Analytics } from "@vercel/analytics/react";
 
 import "../styles/globals.css";
 import Head from "next/head";
@@ -24,6 +25,7 @@ const MyApp: AppType<{
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Component {...pageProps} />
+        <Analytics />
       </SessionProvider>
     </NextIntlProvider>
   );
